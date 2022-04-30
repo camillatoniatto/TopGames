@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClassAluguel.cs" />
+    <Compile Include="Classes\ClassArtigo.cs" />
+    <Compile Include="Classes\ClassCliente.cs" />
+    <Compile Include="Classes\ClassJogo.cs" />
+    <Compile Include="Classes\ClassProduto.cs" />
+    <Compile Include="Classes\ClassVenda.cs" />
     <Compile Include="DBContext.cs" />
     <Compile Include="FormPrincipal.cs">
       <SubType>Form</SubType>
@@ -68,8 +74,17 @@
     <Compile Include="FormPrincipal.Designer.cs">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormVenda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVenda.Designer.cs">
+      <DependentUpon>FormVenda.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormVenda.resx">
+      <DependentUpon>FormVenda.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

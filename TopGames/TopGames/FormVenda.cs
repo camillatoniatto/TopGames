@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Net;
+using System.IO;
+using System.Data.SqlClient;
+using TopGames.Classes;
 
 namespace TopGames
 {
@@ -20,15 +24,26 @@ namespace TopGames
 
         SqlConnection con = new SqlConnection(DBContext.stringconexao);
 
-        public void MinhasHospedagens()
+        // QUERY SELECT
+        /*select venda.id, cliente.nome, cliente.cpf, jogo.nome, artigo.nome, venda.quantidade, venda.valor_total
+        from venda
+        join produto on venda.id = produto.idvenda
+        join jogo on produto.idjogo = jogo.id
+        join artigo on produto.idartigo = artigo.id
+        joint cliente on cliente.id = venda.idcliente
+        order by venda.data_venda desc
+        */
+
+        // ToDo: realizar query de vendas com join em artigos e produtos, arrumar metodo GetAll
+        public void GetAll()
         {
             if (con.State == ConnectionState.Open)
             {
                 con.Close();
             }
             con.Open();
-            SqlCommand cmd = new SqlCommand("HospedagemCliente", con);
-            cmd.Parameters.AddWithValue("@cpf", SqlDbType.Int).Value = FormLogin.usuarioconectado;
+            SqlCommand cmd = new SqlCommand("GetAllVendas", con);
+            //cmd.Parameters.AddWithValue("@cpf", SqlDbType.Int).Value = FormLogin.usuarioconectado;
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -36,47 +51,80 @@ namespace TopGames
             int linhas = dt.Rows.Count;
             if (dt.Rows.Count > 0)
             {
-                //cbxAnimal.Text = dt.Rows[0]["animal"].ToString();
-                dgvPet.Columns.Add("Id", "Id");
-                dgvPet.Columns.Add("Animal", "Animal");
-                dgvPet.Columns.Add("Cpf", "Cpf");
-                dgvPet.Columns.Add("Tutor", "Tutor");
-                dgvPet.Columns.Add("Checkin", "Checkin");
-                dgvPet.Columns.Add("Checkout", "Checkout");
-                dgvPet.Columns.Add("Status", "Status");
+                //cbxVenda.Text = dt.Rows[0]["animal"].ToString();
+                dgvVenda.Columns.Add("Id", "Venda");
+                dgvVenda.Columns.Add("Nome", "Nome");
+                dgvVenda.Columns.Add("Cpf", "Cpf");
+                dgvVenda.Columns.Add("Jogo", "Nome");
+                dgvVenda.Columns.Add("Artigo", "Nome");
+                dgvVenda.Columns.Add("Quantidade", "Quantidade");
+                dgvVenda.Columns.Add("Valor_Total", "Valor Total");
                 for (int i = 0; i < linhas; i++)
                 {
                     DataGridViewRow item = new DataGridViewRow();
-                    item.CreateCells(dgvPet);
+                    item.CreateCells(dgvVenda);
                     item.Cells[0].Value = dt.Rows[i]["Id"].ToString();
-                    item.Cells[1].Value = dt.Rows[i]["Animal"].ToString();
+                    item.Cells[1].Value = dt.Rows[i]["Nome"].ToString();
                     item.Cells[2].Value = dt.Rows[i]["Cpf"].ToString();
-                    item.Cells[3].Value = dt.Rows[i]["Tutor"].ToString();
-                    item.Cells[4].Value = dt.Rows[i]["Checkin"].ToString();
-                    item.Cells[5].Value = dt.Rows[i]["Checkout"].ToString();
-                    item.Cells[6].Value = dt.Rows[i]["Status"].ToString();
-                    dgvPet.Rows.Add(item);
+                    item.Cells[3].Value = dt.Rows[i]["Nome"].ToString();
+                    item.Cells[4].Value = dt.Rows[i]["Nome"].ToString();
+                    item.Cells[5].Value = dt.Rows[i]["Quantidade"].ToString();
+                    item.Cells[6].Value = dt.Rows[i]["Valor_Total"].ToString();
+                    dgvVenda.Rows.Add(item);
                 }
             }
             con.Close();
         }
 
-        public void CarregaCbxAnimal()
+        // GET ALL CLIENTE
+        public void CarregaCbxCliente()
         {
-            string cli = "SELECT * FROM animal WHERE cpf_tutor ='" + FormLogin.usuarioconectado + "' ORDER BY nome";
+            string cli = "SELECT * FROM Cliente ORDER BY nome";
             SqlCommand cmd = new SqlCommand(cli, con);
             con.Open();
             cmd.CommandType = CommandType.Text;
             SqlDataAdapter da = new SqlDataAdapter(cli, con);
             DataSet ds = new DataSet();
-            da.Fill(ds, "animal");
-            cbxAnimal.ValueMember = "Id";
-            cbxAnimal.DisplayMember = "nome";
-            cbxAnimal.DataSource = ds.Tables["animal"];
+            da.Fill(ds, "Cliente");
+            cbxClientes.ValueMember = "Id";
+            cbxClientes.DisplayMember = "nome";
+            cbxClientes.DataSource = ds.Tables["Cliente"];
             con.Close();
         }
 
-        private void btnLocalizar_Click_1(object sender, EventArgs e)
+        // GET ALL JOGO
+        public void CarregaCbxJogo()
+        {
+            string jogo = "SELECT * FROM Jogo ORDER BY nome";
+            SqlCommand cmd = new SqlCommand(jogo, con);
+            con.Open();
+            cmd.CommandType = CommandType.Text;
+            SqlDataAdapter da = new SqlDataAdapter(jogo, con);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "Jogo");
+            cbxProdutos.ValueMember = "Id";
+            cbxProdutos.DisplayMember = "nome";
+            cbxProdutos.DataSource = ds.Tables["Jogo"];
+            con.Close();
+        }
+
+        // GET ALL ARTIGO
+        public void CarregaCbxArtigo()
+        {
+            string artigo = "SELECT * FROM Artigo ORDER BY nome";
+            SqlCommand cmd = new SqlCommand(artigo, con);
+            con.Open();
+            cmd.CommandType = CommandType.Text;
+            SqlDataAdapter da = new SqlDataAdapter(artigo, con);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "Artigo");
+            cbxProdutos.ValueMember = "Id";
+            cbxProdutos.DisplayMember = "nome";
+            cbxProdutos.DataSource = ds.Tables["Artigo"];
+            con.Close();
+        }
+                
+        /*private void btnLocalizar_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -91,25 +139,59 @@ namespace TopGames
             {
                 MessageBox.Show(er.Message);
             }
+        }*/
+
+        private void dgvVenda_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            /*DataGridViewRow row = this.dgvVenda.Rows[e.RowIndex];
+            txtID.Text = row.Cells[0].Value.ToString().Trim();
+            cbxAnimal.Text = row.Cells[1].Value.ToString().Trim();
+            dtpDtInicio.Text = row.Cells[4].Value.ToString().Trim();
+            dtpDtFim.Text = row.Cells[5].Value.ToString().Trim();*/
         }
 
-        private void btnCadastro_Click_1(object sender, EventArgs e)
+        // ARRUMAR DECIMAL
+        private void btnVender_Click(object sender, EventArgs e)
         {
             try
             {
-                Hospedagem hsp = new Hospedagem();
-                hsp.Inserir(cbxAnimal.SelectedValue, dtpDtInicio.Value.Date, dtpDtFim.Value.Date);
-                MessageBox.Show("Hospedagem cadastrada com sucesso!", "Cadastrar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvPet.Rows.Clear();
-                dgvPet.Columns.Clear();
-                dgvPet.Refresh();
-                MinhasHospedagens();
-                txtID.Text = "";
-                string animal = cbxAnimal.ValueMember;
-                this.dtpDtInicio.Value = DateTime.Now.Date;
-                this.dtpDtFim.Value = DateTime.Now.Date.AddDays(2);
+                ClassVenda venda = new ClassVenda();
+                ClassProduto produtos = new ClassProduto();
+                if (checkBox1.Checked)
+                {
+                    produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
+                }
+                else if (checkBox2.Checked)
+                {
+                    produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
 
-                ClassConecta.FecharConexao();
+                }
+                string idProduto = "SELECT IDENT_CURRENT('Produto') AS idProduto";
+                venda.Inserir(cbxClientes.SelectedValue, idProduto, txtTotal.Text, txtQuantidade.Text, DateTime.Now);
+                
+                string idVenda = "SELECT IDENT_CURRENT('Venda') AS idVenda";
+                
+                if (checkBox1.Checked)
+                {
+                    produtos.Atualizar(idProduto, cbxProdutos.SelectedValue, null, idVenda);
+                }
+                else if (checkBox2.Checked)
+                {
+                    produtos.Atualizar(idProduto, null, cbxProdutos.SelectedValue, idVenda);
+                }
+
+                MessageBox.Show("Venda realizada com sucesso.", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvVenda.Rows.Clear();
+                dgvVenda.Columns.Clear();
+                dgvVenda.Refresh();
+                GetAll();
+                txtID.Text = "";
+                string cliente = cbxClientes.ValueMember;
+                string produto = cbxProdutos.ValueMember;
+                txtQuantidade.Text = "";
+                txtTotal.Text = "";
+
+                DBContext.FecharConexao();
             }
             catch (Exception er)
             {
@@ -117,66 +199,68 @@ namespace TopGames
             }
         }
 
-        private void btnAttPet_Click_1(object sender, EventArgs e)
+        // CHECKBOX JOGO true
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            try
-            {
-                Hospedagem hsp = new Hospedagem();
-                hsp.Atualizar(txtID.Text, cbxAnimal.SelectedValue, dtpDtInicio.Value.Date, dtpDtFim.Value.Date);
-                MessageBox.Show("Hospedagem atualizada com sucesso!", "Atualizar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvPet.Rows.Clear();
-                dgvPet.Columns.Clear();
-                dgvPet.Refresh();
-                MinhasHospedagens();
-                txtID.Text = "";
-                this.dtpDtInicio.Value = DateTime.Now.Date;
-                this.dtpDtFim.Value = DateTime.Now.Date.AddDays(2);
-                ClassConecta.FecharConexao();
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show(er.Message);
-            }
+            //desmarca check artigo
+            checkBox2.Checked = false;
+            //libera cbxproduto
+            cbxProdutos.Enabled = true;
+            CarregaCbxJogo();
         }
 
-        private void btnConfirmar_Click_1(object sender, EventArgs e)
+        // CHECKBOX ARTIGO true
+        private void checkBox2_MouseCaptureChanged(object sender, EventArgs e)
         {
-            try
-            {
-                Hospedagem hsp = new Hospedagem();
-                hsp.Confirmar(txtID.Text);
-                MessageBox.Show("Hospedagem confirmada com sucesso!", "Atualizar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvPet.Rows.Clear();
-                dgvPet.Columns.Clear();
-                dgvPet.Refresh();
-                MinhasHospedagens();
-                txtID.Text = "";
-                this.dtpDtInicio.Value = DateTime.Now.Date;
-                this.dtpDtFim.Value = DateTime.Now.Date.AddDays(2);
-                ClassConecta.FecharConexao();
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show(er.Message);
-            }
+            //desmarca check jogo
+            checkBox1.Checked = false;
+            //libera cbxproduto
+            cbxProdutos.Enabled = true;
+            CarregaCbxArtigo();
         }
 
-        private void btnExcluirPet_Click_1(object sender, EventArgs e)
+        private void FormVenda_Load(object sender, EventArgs e)
+        {
+            CarregaCbxCliente();
+            cbxProdutos.Enabled = false;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+
+            dgvVenda.Rows.Clear();
+            dgvVenda.Columns.Clear();
+            dgvVenda.Refresh();
+            GetAll();
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            txtID.Text = "";
+            string cliente = cbxClientes.ValueMember;
+            cbxProdutos.Enabled = false;
+            txtQuantidade.Text = "";
+            txtTotal.Text = "";
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+        }
+
+        private void btnDeletar_Click(object sender, EventArgs e)
         {
             try
             {
                 string id = txtID.Text.Trim();
-                Hospedagem hsp = new Hospedagem();
-                hsp.Excluir(id);
-                MessageBox.Show("Hospedagem excluída com sucesso!", "Deletar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvPet.Rows.Clear();
-                dgvPet.Columns.Clear();
-                dgvPet.Refresh();
-                MinhasHospedagens();
+                ClassVenda venda = new ClassVenda();
+                venda.Excluir(id);
+                MessageBox.Show("Venda excluída com sucesso!", "Deletar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvVenda.Rows.Clear();
+                dgvVenda.Columns.Clear();
+                dgvVenda.Refresh();
+                GetAll();
                 txtID.Text = "";
-                this.dtpDtInicio.Value = DateTime.Now.Date;
-                this.dtpDtFim.Value = DateTime.Now.Date.AddDays(2);
-                ClassConecta.FecharConexao();
+                string cliente = cbxClientes.ValueMember;
+                string produto = cbxProdutos.ValueMember;
+                txtQuantidade.Text = "";
+                txtTotal.Text = "";
+                DBContext.FecharConexao();
             }
             catch (Exception er)
             {
@@ -184,27 +268,53 @@ namespace TopGames
             }
         }
 
-        private void btnVoltar_Click(object sender, EventArgs e)
+        private async void btnAttVenda_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ClassVenda venda = new ClassVenda();
+                venda.Atualizar(txtID.Text, cbxClientes.SelectedValue, cbxProdutos.SelectedValue, txtTotal.Text, txtQuantidade.Text);
+                ClassProduto produtos = new ClassProduto();
+                if (checkBox1.Checked)
+                {
+                    produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
+                }
+                else if (checkBox2.Checked)
+                {
+                    produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
+
+                }
+
+                var idProduto = await produtos.LocalizaByIdVenda(txtID.Text);
+                if (checkBox1.Checked)
+                {
+                    produtos.Atualizar(idProduto.ToString(), cbxProdutos.SelectedValue, null, txtID.Text);
+                }
+                else if (checkBox2.Checked)
+                {
+                    produtos.Atualizar(idProduto.ToString(), null, cbxProdutos.SelectedValue, txtID.Text);
+                }
+                MessageBox.Show("Venda atualizada com sucesso!", "Atualizar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvVenda.Rows.Clear();
+                dgvVenda.Columns.Clear();
+                dgvVenda.Refresh();
+                GetAll();
+                txtID.Text = "";
+                string cliente = cbxClientes.ValueMember;
+                string produto = cbxProdutos.ValueMember;
+                txtQuantidade.Text = "";
+                txtTotal.Text = "";
+                DBContext.FecharConexao();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
+        }
+
+        private void btnVoltar_Click_1(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void FormHospedagemCliente_Load_1(object sender, EventArgs e)
-        {
-            CarregaCbxAnimal();
-            dgvPet.Rows.Clear();
-            dgvPet.Columns.Clear();
-            dgvPet.Refresh();
-            MinhasHospedagens();
-        }
-
-        private void dgvPet_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow row = this.dgvPet.Rows[e.RowIndex];
-            txtID.Text = row.Cells[0].Value.ToString().Trim();
-            cbxAnimal.Text = row.Cells[1].Value.ToString().Trim();
-            dtpDtInicio.Text = row.Cells[4].Value.ToString().Trim();
-            dtpDtFim.Text = row.Cells[5].Value.ToString().Trim();
         }
     }
 }
