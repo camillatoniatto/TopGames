@@ -12,6 +12,7 @@ using System.Net;
 using System.IO;
 using System.Data.SqlClient;
 using TopGames.Classes;
+using TopGames.Models;
 
 namespace TopGames
 {
@@ -74,6 +75,70 @@ namespace TopGames
                 }
             }
             con.Close();
+        }
+
+        public async void DiminuirQuantidade(bool isGame, int quantidade, int id)
+        {
+            var verifica = await VerificarQuantidade(id, isGame);
+
+            SqlConnection con = DBContext.ObterConexao();
+            SqlCommand cmd = con.CreateCommand();
+            var resto = verifica.Quantidade - quantidade;
+            if (isGame)
+            {
+                cmd.CommandText = "UPDATE Jogo SET quantidade='" + resto + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            }
+            else
+            {
+                cmd.CommandText = "UPDATE Artigo SET quantidade='" + resto + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            }
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+            DBContext.FecharConexao();
+        }
+
+        public async Task<ModelQuantidade> VerificarQuantidade(int id, bool isGame)
+        {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
+
+            ModelQuantidade model = new ModelQuantidade();
+            SqlCommand cmd = new SqlCommand();
+            if (isGame)
+            {
+                cmd = new SqlCommand("SELECT * FROM Jogo WHERE @Id='" + Convert.ToInt32(id) + "'", con);
+
+            }
+            else
+            {
+                cmd = new SqlCommand("SELECT * FROM Artigo WHERE @Id='" + Convert.ToInt32(id) + "'", con);
+            }
+            cmd.Parameters.AddWithValue("@Id", id);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader rd = cmd.ExecuteReader();
+            int valor1 = 0;
+            bool conversaoSucedida = int.TryParse(txtQuantidade.Text, out valor1);
+            if (rd.Read())
+            {
+                int valor2 = Convert.ToInt32(rd["quantidade"].ToString());
+                if (valor1 > valor2)
+                {
+                    MessageBox.Show("Não tem quantidade suficiente em estoque!", "Estoque Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtQuantidade.Text = "";
+                    txtQuantidade.Focus();
+                    con.Close();
+                }
+                else
+                {
+                    model.Id = id;
+                    model.Quantidade = Convert.ToInt32(rd["quantidade"].ToString());
+                    model.Valor = Convert.ToDecimal(rd["valor"].ToString());
+                }
+            }
+            return model;
         }
 
         // GET ALL CLIENTE
@@ -157,13 +222,16 @@ namespace TopGames
             {
                 ClassVenda venda = new ClassVenda();
                 ClassProduto produtos = new ClassProduto();
+                bool isGame = false;
                 if (checkBox1.Checked)
                 {
                     produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
+                    isGame = true;
                 }
                 else if (checkBox2.Checked)
                 {
                     produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
+                    isGame = false;
 
                 }
                 string idProduto = "SELECT IDENT_CURRENT('Produto') AS idProduto";
@@ -179,6 +247,8 @@ namespace TopGames
                 {
                     produtos.Atualizar(idProduto, null, cbxProdutos.SelectedValue, idVenda);
                 }
+
+                DiminuirQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), Convert.ToInt32(idProduto));
 
                 MessageBox.Show("Venda realizada com sucesso.", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dgvVenda.Rows.Clear();

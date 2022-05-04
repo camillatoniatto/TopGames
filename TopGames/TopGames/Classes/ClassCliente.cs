@@ -16,6 +16,7 @@ namespace TopGames.Classes
         public string cpf { get; set; }
         public string telefone { get; set; }
         public string email { get; set; }
+        public string cargo { get; set; }
         public string senha { get; set; }
         public DateTime data_nascimento { get; set; }
 
@@ -116,7 +117,7 @@ namespace TopGames.Classes
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            //cmd.CommandText = "UPDATE cliente SET nome='" + nome + "',telefone='" + telefone + "',email='" + email + "',senha='" + senha + "',data_nascimento='" + data_nascimento + "' WHERE cpf = '" + FormLogin.usuarioconectado + "'";
+            cmd.CommandText = "UPDATE cliente SET nome='" + nome + "',telefone='" + telefone + "',email='" + email + "',senha='" + senha + "',data_nascimento='" + data_nascimento + "' WHERE cpf = '" + FormLogin.usuarioconectado + "'";
             cmd.CommandType = CommandType.Text; //form login na lina acima
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();
@@ -124,14 +125,14 @@ namespace TopGames.Classes
 
         public void AtualizarAdmin(string nome, string cpf, string telefone, string email, DateTime data_nascimento, bool checkbox)
         {
-            var processo = "";
-            if (checkbox)
+            var processo = ""; // 
+            if (checkbox)         //
             {
-                processo = "admin";
+                processo = "admin"; // PROCESSO????
             }
             else
-            {
-                processo = "user";
+            {                       //
+                processo = "user";  //
             }
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();

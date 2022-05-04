@@ -18,3 +18,9 @@ C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\bin\Debug\DatabaseTo
 C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\bin\Debug\TopGames.exe.config
 C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\bin\Debug\TopGames.exe
 C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\bin\Debug\TopGames.pdb
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.FormArtigo.resources
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.FormCliente.resources
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.FormLogin.resources
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.FormVenda.resources
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.csproj.CoreCompileInputs.cache
+C:\Users\Aluno\source\repos\TopGames-main\TopGames\TopGames\obj\Debug\TopGames.FormPrincipal.resources
