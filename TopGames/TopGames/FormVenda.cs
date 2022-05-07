@@ -52,7 +52,6 @@ namespace TopGames
             int linhas = dt.Rows.Count;
             if (dt.Rows.Count > 0)
             {
-                //cbxVenda.Text = dt.Rows[0]["animal"].ToString();
                 dgvVenda.Columns.Add("Id", "Venda");
                 dgvVenda.Columns.Add("Nome", "Nome");
                 dgvVenda.Columns.Add("Cpf", "Cpf");
@@ -109,15 +108,14 @@ namespace TopGames
             SqlCommand cmd = new SqlCommand();
             if (isGame)
             {
-                cmd = new SqlCommand("SELECT * FROM Jogo WHERE @Id='" + Convert.ToInt32(id) + "'", con);
-
+                cmd.CommandText = "SELECT * FROM Jogo WHERE @Id='" + Convert.ToInt32(cbxProdutos.SelectedValue) + "'";
             }
             else
             {
-                cmd = new SqlCommand("SELECT * FROM Artigo WHERE @Id='" + Convert.ToInt32(id) + "'", con);
+                cmd.CommandText = "SELECT * FROM Artigo WHERE @Id='" + Convert.ToInt32(cbxProdutos.SelectedValue) + "'";
+
             }
-            cmd.Parameters.AddWithValue("@Id", id);
-            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.Text;
             SqlDataReader rd = cmd.ExecuteReader();
             int valor1 = 0;
             bool conversaoSucedida = int.TryParse(txtQuantidade.Text, out valor1);
@@ -136,6 +134,10 @@ namespace TopGames
                     model.Id = id;
                     model.Quantidade = Convert.ToInt32(rd["quantidade"].ToString());
                     model.Valor = Convert.ToDecimal(rd["valor"].ToString());
+
+                    var valorUnid = Convert.ToDecimal(rd["valor"].ToString());
+                    var total = valorUnid * valor2;
+                    txtTotal.Text = "R$ " + total.ToString("F2");
                 }
             }
             return model;
@@ -220,35 +222,46 @@ namespace TopGames
         {
             try
             {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
                 ClassVenda venda = new ClassVenda();
                 ClassProduto produtos = new ClassProduto();
+                SqlCommand cmdProduto = new SqlCommand();
                 bool isGame = false;
                 if (checkBox1.Checked)
                 {
                     produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
                     isGame = true;
+                    string idProduto = "SELECT IDENT_CURRENT('Produto')";
+                    cmdProduto = new SqlCommand(idProduto, con);
                 }
                 else if (checkBox2.Checked)
                 {
                     produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
                     isGame = false;
-
+                    string idArtigo = "SELECT IDENT_CURRENT('Artigo')";
+                    cmdProduto = new SqlCommand(idArtigo, con);
                 }
-                string idProduto = "SELECT IDENT_CURRENT('Produto') AS idProduto";
-                venda.Inserir(cbxClientes.SelectedValue, idProduto, txtTotal.Text, txtQuantidade.Text, DateTime.Now);
+                Int32 idProduto2 = Convert.ToInt32(cmdProduto.ExecuteScalar());
+                venda.Inserir(cbxClientes.SelectedValue, idProduto2, txtTotal.Text, txtQuantidade.Text, DateTime.Now);
                 
-                string idVenda = "SELECT IDENT_CURRENT('Venda') AS idVenda";
-                
+                string idVenda = "SELECT IDENT_CURRENT('Venda') ";
+                SqlCommand cmdvenda = new SqlCommand(idVenda, con);
+                Int32 idVenda2 = Convert.ToInt32(cmdvenda.ExecuteScalar());
+
                 if (checkBox1.Checked)
                 {
-                    produtos.Atualizar(idProduto, cbxProdutos.SelectedValue, null, idVenda);
+                    produtos.Atualizar(idProduto2.ToString(), cbxProdutos.SelectedValue, null, idVenda);
                 }
                 else if (checkBox2.Checked)
                 {
-                    produtos.Atualizar(idProduto, null, cbxProdutos.SelectedValue, idVenda);
+                    produtos.Atualizar(idProduto2.ToString(), null, cbxProdutos.SelectedValue, idVenda);
                 }
 
-                DiminuirQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), Convert.ToInt32(idProduto));
+                DiminuirQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), Convert.ToInt32(idProduto2));
 
                 MessageBox.Show("Venda realizada com sucesso.", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dgvVenda.Rows.Clear();
@@ -292,9 +305,13 @@ namespace TopGames
         private void FormVenda_Load(object sender, EventArgs e)
         {
             CarregaCbxCliente();
+            txtID.Text = "";
+            cbxClientes.Enabled = false;
             cbxProdutos.Enabled = false;
-            checkBox1.Checked = false;
-            checkBox2.Checked = false;
+            txtQuantidade.Enabled = false;
+            txtTotal.Enabled = false;
+            checkBox1.Enabled = false;
+            checkBox2.Enabled = false;
 
             dgvVenda.Rows.Clear();
             dgvVenda.Columns.Clear();
@@ -385,6 +402,61 @@ namespace TopGames
         private void btnVoltar_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnNovaVenda_Click(object sender, EventArgs e)
+        {
+            txtID.Text = "";
+            cbxClientes.Enabled = true;
+            string cliente = cbxClientes.ValueMember;
+            txtQuantidade.Enabled = true;
+            checkBox1.Enabled = true;
+            checkBox2.Enabled = true;
+        }
+
+        private void txtQuantidade_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txtQuantidade.Text) > 0)
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
+                ModelQuantidade model = new ModelQuantidade();
+                SqlCommand cmd = new SqlCommand();
+                if (checkBox1.Checked)
+                {
+                    cmd = new SqlCommand("EncontraJogo", con);
+                }
+                else if (checkBox2.Checked)
+                {
+                    cmd = new SqlCommand("EncontraArtigo", con);
+                }
+                cmd.Parameters.AddWithValue("@Id", Convert.ToInt32(cbxProdutos.SelectedValue));
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader rd = cmd.ExecuteReader();
+                int valor1 = 0;
+                bool conversaoSucedida = int.TryParse(txtQuantidade.Text, out valor1);
+                if (rd.Read())
+                {
+                    int valor2 = Convert.ToInt32(rd["quantidade"].ToString());
+                    if (valor1 > valor2)
+                    {
+                        MessageBox.Show("Não tem quantidade suficiente em estoque!", "Estoque Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        txtQuantidade.Text = "";
+                        txtQuantidade.Focus();
+                        con.Close();
+                    }
+                    else
+                    {
+                        decimal valorUnid = Convert.ToDecimal(rd["valor"]);
+                        int quantidade = Convert.ToInt32(txtQuantidade.Text);
+                        var total = valorUnid * quantidade;
+                        txtTotal.Text = "R$ " + total.ToString("F2");
+                    }
+                }
+            }
         }
     }
 }

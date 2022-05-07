@@ -48,6 +48,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.btnNovaVenda = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVenda)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +64,7 @@
             // 
             // btnLimpar
             // 
-            this.btnLimpar.BackColor = System.Drawing.Color.Thistle;
+            this.btnLimpar.BackColor = System.Drawing.Color.LightBlue;
             this.btnLimpar.Location = new System.Drawing.Point(490, 278);
             this.btnLimpar.Name = "btnLimpar";
             this.btnLimpar.Size = new System.Drawing.Size(264, 23);
@@ -114,7 +115,7 @@
             // 
             // btnAttVenda
             // 
-            this.btnAttVenda.BackColor = System.Drawing.Color.Thistle;
+            this.btnAttVenda.BackColor = System.Drawing.Color.LightBlue;
             this.btnAttVenda.Location = new System.Drawing.Point(490, 249);
             this.btnAttVenda.Name = "btnAttVenda";
             this.btnAttVenda.Size = new System.Drawing.Size(264, 23);
@@ -125,7 +126,7 @@
             // 
             // btnVender
             // 
-            this.btnVender.BackColor = System.Drawing.Color.Thistle;
+            this.btnVender.BackColor = System.Drawing.Color.LightBlue;
             this.btnVender.Location = new System.Drawing.Point(490, 220);
             this.btnVender.Name = "btnVender";
             this.btnVender.Size = new System.Drawing.Size(264, 23);
@@ -152,7 +153,7 @@
             // 
             // btnLocalizar
             // 
-            this.btnLocalizar.BackColor = System.Drawing.Color.Thistle;
+            this.btnLocalizar.BackColor = System.Drawing.Color.LightBlue;
             this.btnLocalizar.Location = new System.Drawing.Point(202, 23);
             this.btnLocalizar.Name = "btnLocalizar";
             this.btnLocalizar.Size = new System.Drawing.Size(75, 23);
@@ -179,15 +180,16 @@
             // 
             // txtQuantidade
             // 
-            this.txtQuantidade.Location = new System.Drawing.Point(15, 281);
+            this.txtQuantidade.Location = new System.Drawing.Point(15, 265);
             this.txtQuantidade.Name = "txtQuantidade";
-            this.txtQuantidade.Size = new System.Drawing.Size(116, 20);
+            this.txtQuantidade.Size = new System.Drawing.Size(87, 20);
             this.txtQuantidade.TabIndex = 91;
+            this.txtQuantidade.TextChanged += new System.EventHandler(this.txtQuantidade_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 264);
+            this.label2.Location = new System.Drawing.Point(12, 248);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 92;
@@ -195,15 +197,17 @@
             // 
             // txtTotal
             // 
-            this.txtTotal.Location = new System.Drawing.Point(322, 281);
+            this.txtTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotal.Location = new System.Drawing.Point(265, 265);
+            this.txtTotal.Multiline = true;
             this.txtTotal.Name = "txtTotal";
-            this.txtTotal.Size = new System.Drawing.Size(116, 20);
+            this.txtTotal.Size = new System.Drawing.Size(173, 37);
             this.txtTotal.TabIndex = 93;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(319, 264);
+            this.label3.Location = new System.Drawing.Point(262, 249);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 94;
@@ -240,11 +244,23 @@
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.MouseCaptureChanged += new System.EventHandler(this.checkBox2_MouseCaptureChanged);
             // 
+            // btnNovaVenda
+            // 
+            this.btnNovaVenda.BackColor = System.Drawing.Color.LightBlue;
+            this.btnNovaVenda.Location = new System.Drawing.Point(283, 23);
+            this.btnNovaVenda.Name = "btnNovaVenda";
+            this.btnNovaVenda.Size = new System.Drawing.Size(155, 23);
+            this.btnNovaVenda.TabIndex = 98;
+            this.btnNovaVenda.Text = "Iniciar venda";
+            this.btnNovaVenda.UseVisualStyleBackColor = false;
+            this.btnNovaVenda.Click += new System.EventHandler(this.btnNovaVenda_Click);
+            // 
             // FormVenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(776, 561);
+            this.Controls.Add(this.btnNovaVenda);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.checkBox1);
@@ -300,5 +316,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button btnNovaVenda;
     }
 }

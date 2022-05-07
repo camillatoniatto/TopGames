@@ -20,7 +20,15 @@ namespace TopGames.Classes
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "INSERT INTO Produtos(idJogo,idArtigo,idVenda) VALUES ('" + Convert.ToInt32(idJogo) + "','" + Convert.ToInt32(idArtigo) + "','" + Convert.ToInt32(idVenda) + "')";
+            if (idJogo != null)
+            {
+                cmd.CommandText = "INSERT INTO Produtos(idJogo,idArtigo,idVenda) VALUES ('" + idJogo.ToString() + "','" + null + "','" + Convert.ToInt32(idVenda) + "')";
+            }
+            else
+            {
+                cmd.CommandText = "INSERT INTO Produtos(idJogo,idArtigo,idVenda) VALUES ('" + null + "','" + idArtigo.ToString() + "','" + Convert.ToInt32(idVenda) + "')";
+            }
+            //cmd.CommandText = "INSERT INTO Produtos(idJogo,idArtigo,idVenda) VALUES ('" + idJogo.ToString() + "','" + idArtigo.ToString() + "','" + Convert.ToInt32(idVenda) + "')";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();

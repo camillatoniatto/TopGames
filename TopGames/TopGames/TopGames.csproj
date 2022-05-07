@@ -68,6 +68,12 @@
     <Compile Include="Classes\ClassProduto.cs" />
     <Compile Include="Classes\ClassVenda.cs" />
     <Compile Include="DBContext.cs" />
+    <Compile Include="FormAluguel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAluguel.Designer.cs">
+      <DependentUpon>FormAluguel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormArtigo.cs">
       <SubType>Form</SubType>
     </Compile>

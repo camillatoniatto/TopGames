@@ -84,6 +84,7 @@
             this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
             this.clientesToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.clientesToolStripMenuItem.Text = "Clientes";
+            this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
             // 
             // jogosToolStripMenuItem
             // 
@@ -102,12 +103,14 @@
             this.vendasToolStripMenuItem.Name = "vendasToolStripMenuItem";
             this.vendasToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.vendasToolStripMenuItem.Text = "Vendas";
+            this.vendasToolStripMenuItem.Click += new System.EventHandler(this.vendasToolStripMenuItem_Click);
             // 
             // alugueisToolStripMenuItem
             // 
             this.alugueisToolStripMenuItem.Name = "alugueisToolStripMenuItem";
             this.alugueisToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.alugueisToolStripMenuItem.Text = "Alugueis";
+            this.alugueisToolStripMenuItem.Click += new System.EventHandler(this.alugueisToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
