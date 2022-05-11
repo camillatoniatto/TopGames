@@ -37,6 +37,6 @@ C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.FormPrincipal.r
 C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.FormVenda.resources
 C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.Properties.Resources.resources
 C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.csproj.GenerateResource.cache
-C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.csproj.CoreCompileInputs.cache
 C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.exe
 C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.pdb
+C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.FormAluguel.resources

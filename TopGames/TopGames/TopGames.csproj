@@ -107,6 +107,9 @@
     <Compile Include="Models\ModelQuantidade.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAluguel.resx">
+      <DependentUpon>FormAluguel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormArtigo.resx">
       <DependentUpon>FormArtigo.cs</DependentUpon>
     </EmbeddedResource>

@@ -19,11 +19,13 @@ namespace TopGames.Classes
         public DateTime data_venda { get; set; }
 
 
-        public void Inserir(object idCliente, object idProduto, string valor_total, string quantidade, DateTime data_venda)
+        public void Inserir(object idCliente, object idProduto, string valor_total, int quantidade, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "INSERT INTO Venda(idCliente,idProduto,valor_total,quantidade,data_venda) VALUES ('" + Convert.ToInt32(idCliente) + "','" + Convert.ToInt32(idProduto) + "','" + Convert.ToDecimal(valor_total) + "','" + Convert.ToInt32(quantidade) + "',Convert(DateTime,'" + data_venda + "',103))";
+            string replace = valor_total.Replace(",", ".");
+            decimal valor = Convert.ToDecimal(replace) / 100;
+            cmd.CommandText = "INSERT INTO Venda(idCliente,idProduto,valor_total,quantidade,data_venda,tipo) VALUES ('" + Convert.ToInt32(idCliente) + "','" + Convert.ToInt32(idProduto) + "','" + valor + "','" + quantidade + "','"+ DateTime.Now +"','" + tipo.ToString() + "')";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();
@@ -46,11 +48,11 @@ namespace TopGames.Classes
             }
         }
 
-        public void Atualizar(string id, object idCliente, object idProduto, string valor_total, string quantidade)
+        public void Atualizar(string id, object idCliente, object idProduto, string valor_total, string quantidade, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE Venda SET idCliente='" + Convert.ToInt32(idCliente) + "',idProduto='" + Convert.ToInt32(idProduto) + "', valor_total='" + Convert.ToDecimal(valor_total) + "', quantidade='" + Convert.ToInt32(quantidade) + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            cmd.CommandText = "UPDATE Venda SET idCliente='" + Convert.ToInt32(idCliente) + "',idProduto='" + Convert.ToInt32(idProduto) + "', valor_total='" + Convert.ToDecimal(valor_total) + "', quantidade='" + Convert.ToInt32(quantidade) + "', tipo='" + tipo + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();

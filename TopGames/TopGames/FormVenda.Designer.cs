@@ -49,6 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.btnNovaVenda = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVenda)).BeginInit();
             this.SuspendLayout();
@@ -255,11 +256,22 @@
             this.btnNovaVenda.UseVisualStyleBackColor = false;
             this.btnNovaVenda.Click += new System.EventHandler(this.btnNovaVenda_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(216, 271);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(43, 29);
+            this.label5.TabIndex = 99;
+            this.label5.Text = "R$";
+            // 
             // FormVenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(776, 561);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btnNovaVenda);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label4);
@@ -317,5 +329,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button btnNovaVenda;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -18,14 +18,15 @@ namespace TopGames.Classes
         public DateTime data_retirada { get; set; }
         public DateTime data_entrega { get; set; }
         public int entregue { get; set; } // 0 não - 1 sim
-        public int multa { get; set; } // 0 não - 1 sim
+        public decimal multa { get; set; } 
 
 
-        public void Inserir(int idCliente, int idProduto, decimal valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, int multa)
+        public void Inserir(object idCliente, object idProduto, string valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, decimal multa, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "INSERT INTO Aluguel(idCliente,idProduto,valor_total,quantidade,data_venda) VALUES ('" + idCliente + "','" + idProduto + "','" + valor_total + "','" + quantidade + "',Convert(DateTime,'" + data_retirada + "',103),Convert(DateTime,'" + data_entrega + "',103),'" + entregue + "','" + multa + "')";
+            decimal valor = Convert.ToDecimal(valor_total);
+            cmd.CommandText = "INSERT INTO Aluguel(idCliente,idProduto,valor_total,quantidade,data_retirada,data_entrega,entregue,multa,tipo) VALUES ('" + Convert.ToInt32(idCliente) + "','" + Convert.ToInt32(idProduto) + "','" + valor + "','" + Convert.ToInt32(quantidade) + "',Convert(DateTime,'" + data_retirada + "',103),Convert(DateTime,'" + data_entrega + "',103),'" + entregue + "','" + multa + "','" + tipo + "')";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();
@@ -47,15 +48,25 @@ namespace TopGames.Classes
                 data_retirada = Convert.ToDateTime(dr["data_retirada"]);
                 data_entrega = Convert.ToDateTime(dr["data_entrega"]);
                 entregue = (int)dr["entregue"];
-                multa = (int)dr["multa"];
+                multa = (decimal)dr["multa"];
             }
         }
 
-        public void Atualizar(string id, int idCliente, int idProduto, decimal valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, int multa)
+        public void Atualizar(string id, int idCliente, int idProduto, decimal valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, decimal multa, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE Aluguel SET idCliente='" + idCliente + "',idProduto='" + idProduto + "', valor_total='" + valor_total + "', quantidade='" + quantidade + "', data_venda=Convert(DateTime,'" + data_retirada + "',103), data_venda=Convert(DateTime,'" + data_entrega + "',103), entregue='" + entregue + "', multa='" + multa + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            cmd.CommandText = "UPDATE Aluguel SET idCliente='" + idCliente + "',idProduto='" + idProduto + "', valor_total='" + valor_total + "', quantidade='" + quantidade + "', data_retirada=Convert(DateTime,'" + data_retirada + "',103), data_entrega=Convert(DateTime,'" + data_entrega + "',103), entregue='" + entregue + "', multa='" + multa + "', tipo='" + tipo + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+            DBContext.FecharConexao();
+        }
+
+        public void Confirmar(string id, DateTime data_entrega, decimal multa)
+        {
+            SqlConnection con = DBContext.ObterConexao();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "UPDATE Aluguel SET  data_entrega=Convert(DateTime,'" + data_entrega + "',103), entregue='" + 1 + "', multa='" + multa + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();
