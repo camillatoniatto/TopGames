@@ -93,6 +93,7 @@
             this.dgvVenda.ReadOnly = true;
             this.dgvVenda.Size = new System.Drawing.Size(744, 199);
             this.dgvVenda.TabIndex = 83;
+            this.dgvVenda.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVenda_CellContentClick);
             // 
             // btnVoltar
             // 
@@ -127,7 +128,7 @@
             // 
             // btnVender
             // 
-            this.btnVender.BackColor = System.Drawing.Color.LightBlue;
+            this.btnVender.BackColor = System.Drawing.Color.CadetBlue;
             this.btnVender.Location = new System.Drawing.Point(490, 220);
             this.btnVender.Name = "btnVender";
             this.btnVender.Size = new System.Drawing.Size(264, 23);
@@ -247,7 +248,7 @@
             // 
             // btnNovaVenda
             // 
-            this.btnNovaVenda.BackColor = System.Drawing.Color.LightBlue;
+            this.btnNovaVenda.BackColor = System.Drawing.Color.CadetBlue;
             this.btnNovaVenda.Location = new System.Drawing.Point(283, 23);
             this.btnNovaVenda.Name = "btnNovaVenda";
             this.btnNovaVenda.Size = new System.Drawing.Size(155, 23);

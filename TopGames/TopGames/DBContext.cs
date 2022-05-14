@@ -10,7 +10,7 @@ namespace TopGames
 {
     class DBContext
     {
-        public static string stringconexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Aluno\source\repos\TopGames\TopGames\DatabaseTopGames.mdf;Integrated Security=True";
+        public static string stringconexao = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Camilla\source\repos\TopGames\TopGames\DatabaseTopGames.mdf;Integrated Security=True";
         private static string str = stringconexao;
         private static SqlConnection con = null;
 

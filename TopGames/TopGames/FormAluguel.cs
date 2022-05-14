@@ -320,5 +320,10 @@ namespace TopGames
         {
             dtEntrega.Value = dtRetirada.Value.AddDays(3);
         }
+
+        private void btnConfirmar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

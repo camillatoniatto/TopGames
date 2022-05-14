@@ -44,7 +44,7 @@ namespace TopGames
             }
             con.Open();
             SqlCommand cmd = new SqlCommand("GetAllVendas", con);
-            //cmd.Parameters.AddWithValue("@cpf", SqlDbType.Int).Value = FormLogin.usuarioconectado;
+            //cmd.Parameters.AddWithValue("@tipo", );
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -55,7 +55,8 @@ namespace TopGames
                 dgvVenda.Columns.Add("Id", "Venda");
                 dgvVenda.Columns.Add("Nome", "Nome");
                 dgvVenda.Columns.Add("Cpf", "Cpf");
-                dgvVenda.Columns.Add("Produto", "Nome");
+                dgvVenda.Columns.Add("Produto", "Id");
+                dgvVenda.Columns.Add("Tipo", "Tipo");
                 dgvVenda.Columns.Add("Quantidade", "Quantidade");
                 dgvVenda.Columns.Add("Valor_Total", "Valor Total");
                 for (int i = 0; i < linhas; i++)
@@ -65,7 +66,8 @@ namespace TopGames
                     item.Cells[0].Value = dt.Rows[i]["Id"].ToString();
                     item.Cells[1].Value = dt.Rows[i]["Nome"].ToString();
                     item.Cells[2].Value = dt.Rows[i]["Cpf"].ToString();
-                    item.Cells[3].Value = dt.Rows[i]["Nome"].ToString();
+                    item.Cells[3].Value = dt.Rows[i]["Produto"].ToString();
+                    item.Cells[4].Value = dt.Rows[i]["Tipo"].ToString();
                     item.Cells[5].Value = dt.Rows[i]["Quantidade"].ToString();
                     item.Cells[6].Value = dt.Rows[i]["Valor_Total"].ToString();
                     dgvVenda.Rows.Add(item);
@@ -201,15 +203,6 @@ namespace TopGames
             }
         }*/
 
-        private void dgvVenda_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            /*DataGridViewRow row = this.dgvVenda.Rows[e.RowIndex];
-            txtID.Text = row.Cells[0].Value.ToString().Trim();
-            cbxAnimal.Text = row.Cells[1].Value.ToString().Trim();
-            dtpDtInicio.Text = row.Cells[4].Value.ToString().Trim();
-            dtpDtFim.Text = row.Cells[5].Value.ToString().Trim();*/
-        }
-
         // ARRUMAR DECIMAL
         private void btnVender_Click(object sender, EventArgs e)
         {
@@ -300,6 +293,7 @@ namespace TopGames
 
         private void FormVenda_Load(object sender, EventArgs e)
         {
+            GetAll();
             clean();
         }
 
@@ -424,6 +418,26 @@ namespace TopGames
                     }
                 }
             }
+        }
+
+        private void dgvVenda_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = this.dgvVenda.Rows[e.RowIndex];
+            txtID.Text = row.Cells[0].Value.ToString().Trim();
+            cbxClientes.Text = row.Cells[1].Value.ToString().Trim();
+            cbxProdutos.Text = row.Cells[3].Value.ToString().Trim();
+            txtQuantidade.Text = row.Cells[5].Value.ToString().Trim();
+            if (row.Cells[4].Value.ToString().Trim() == "j")
+            {
+                checkBox1.Checked = true;
+                checkBox2.Checked = false;
+            }
+            else if (row.Cells[4].Value.ToString().Trim() == "a")
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = true;
+            }
+            txtTotal.Text = row.Cells[6].Value.ToString().Trim();
         }
     }
 }

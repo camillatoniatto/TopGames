@@ -49,12 +49,12 @@
             this.txtID = new System.Windows.Forms.TextBox();
             this.lblID = new System.Windows.Forms.Label();
             this.btnLocalizar = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.dtEntrega = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.dtRetirada = new System.Windows.Forms.DateTimePicker();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVenda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -72,7 +72,7 @@
             // 
             // btnNovoAlugel
             // 
-            this.btnNovoAlugel.BackColor = System.Drawing.Color.LightBlue;
+            this.btnNovoAlugel.BackColor = System.Drawing.Color.CadetBlue;
             this.btnNovoAlugel.Location = new System.Drawing.Point(283, 23);
             this.btnNovoAlugel.Name = "btnNovoAlugel";
             this.btnNovoAlugel.Size = new System.Drawing.Size(155, 23);
@@ -225,7 +225,7 @@
             // 
             // btnAlugar
             // 
-            this.btnAlugar.BackColor = System.Drawing.Color.LightBlue;
+            this.btnAlugar.BackColor = System.Drawing.Color.CadetBlue;
             this.btnAlugar.Location = new System.Drawing.Point(490, 279);
             this.btnAlugar.Name = "btnAlugar";
             this.btnAlugar.Size = new System.Drawing.Size(264, 23);
@@ -260,15 +260,6 @@
             this.btnLocalizar.Text = "Localizar";
             this.btnLocalizar.UseVisualStyleBackColor = false;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(490, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(264, 261);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 110;
-            this.pictureBox1.TabStop = false;
-            // 
             // btnConfirmar
             // 
             this.btnConfirmar.BackColor = System.Drawing.Color.CadetBlue;
@@ -278,6 +269,7 @@
             this.btnConfirmar.TabIndex = 126;
             this.btnConfirmar.Text = "Confirmar entrega";
             this.btnConfirmar.UseVisualStyleBackColor = false;
+            this.btnConfirmar.Click += new System.EventHandler(this.btnConfirmar_Click);
             // 
             // label7
             // 
@@ -313,6 +305,15 @@
             this.dtRetirada.Size = new System.Drawing.Size(133, 20);
             this.dtRetirada.TabIndex = 127;
             this.dtRetirada.ValueChanged += new System.EventHandler(this.dtRetirada_ValueChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(490, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(264, 261);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 110;
+            this.pictureBox1.TabStop = false;
             // 
             // FormAluguel
             // 

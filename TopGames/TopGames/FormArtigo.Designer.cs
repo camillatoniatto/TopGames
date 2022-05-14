@@ -29,226 +29,234 @@ namespace TopGames
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.txtvalor = new System.Windows.Forms.TextBox();
+            this.lblvalor = new System.Windows.Forms.Label();
+            this.btnexcluir = new System.Windows.Forms.Button();
+            this.btnatualizar = new System.Windows.Forms.Button();
+            this.btncadastrar = new System.Windows.Forms.Button();
+            this.txtempresa = new System.Windows.Forms.TextBox();
+            this.txttamanho = new System.Windows.Forms.TextBox();
+            this.txtcategoria = new System.Windows.Forms.TextBox();
+            this.txtnome = new System.Windows.Forms.TextBox();
+            this.lblempresa = new System.Windows.Forms.Label();
+            this.lbltamanho = new System.Windows.Forms.Label();
+            this.lblcategoria = new System.Windows.Forms.Label();
             this.lblnome = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnlocalizar = new System.Windows.Forms.Button();
             this.txtId = new System.Windows.Forms.TextBox();
             this.lblId = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dgvartigo = new System.Windows.Forms.DataGridView();
+            this.btnsair = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvartigo)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox7
+            // txtvalor
             // 
-            this.textBox7.Location = new System.Drawing.Point(12, 229);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(184, 20);
-            this.textBox7.TabIndex = 37;
+            this.txtvalor.Location = new System.Drawing.Point(15, 222);
+            this.txtvalor.Name = "txtvalor";
+            this.txtvalor.Size = new System.Drawing.Size(184, 20);
+            this.txtvalor.TabIndex = 53;
             // 
-            // label6
+            // lblvalor
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 213);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 13);
-            this.label6.TabIndex = 36;
-            this.label6.Text = "Valor";
+            this.lblvalor.AutoSize = true;
+            this.lblvalor.Location = new System.Drawing.Point(12, 206);
+            this.lblvalor.Name = "lblvalor";
+            this.lblvalor.Size = new System.Drawing.Size(31, 13);
+            this.lblvalor.TabIndex = 52;
+            this.lblvalor.Text = "Valor";
             // 
-            // button5
+            // btnexcluir
             // 
-            this.button5.Location = new System.Drawing.Point(286, 385);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 35;
-            this.button5.Text = "Sair";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnexcluir.Location = new System.Drawing.Point(289, 102);
+            this.btnexcluir.Name = "btnexcluir";
+            this.btnexcluir.Size = new System.Drawing.Size(75, 23);
+            this.btnexcluir.TabIndex = 51;
+            this.btnexcluir.Text = "Excluir";
+            this.btnexcluir.UseVisualStyleBackColor = true;
+            this.btnexcluir.Click += new System.EventHandler(this.btnexcluir_Click);
             // 
-            // button4
+            // btnatualizar
             // 
-            this.button4.Location = new System.Drawing.Point(286, 109);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 34;
-            this.button4.Text = "Excluir";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnatualizar.Location = new System.Drawing.Point(289, 70);
+            this.btnatualizar.Name = "btnatualizar";
+            this.btnatualizar.Size = new System.Drawing.Size(75, 23);
+            this.btnatualizar.TabIndex = 50;
+            this.btnatualizar.Text = "Atualizar";
+            this.btnatualizar.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btncadastrar
             // 
-            this.button3.Location = new System.Drawing.Point(286, 77);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 33;
-            this.button3.Text = "Atualizar";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btncadastrar.Location = new System.Drawing.Point(289, 41);
+            this.btncadastrar.Name = "btncadastrar";
+            this.btncadastrar.Size = new System.Drawing.Size(75, 23);
+            this.btncadastrar.TabIndex = 49;
+            this.btncadastrar.Text = "Cadastrar";
+            this.btncadastrar.UseVisualStyleBackColor = true;
+            this.btncadastrar.Click += new System.EventHandler(this.btncadastrar_Click);
             // 
-            // button2
+            // txtempresa
             // 
-            this.button2.Location = new System.Drawing.Point(286, 48);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 32;
-            this.button2.Text = "Cadastrar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.txtempresa.Location = new System.Drawing.Point(15, 183);
+            this.txtempresa.Name = "txtempresa";
+            this.txtempresa.Size = new System.Drawing.Size(184, 20);
+            this.txtempresa.TabIndex = 48;
             // 
-            // textBox5
+            // txttamanho
             // 
-            this.textBox5.Location = new System.Drawing.Point(12, 190);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(184, 20);
-            this.textBox5.TabIndex = 31;
+            this.txttamanho.Location = new System.Drawing.Point(15, 144);
+            this.txttamanho.Name = "txttamanho";
+            this.txttamanho.Size = new System.Drawing.Size(184, 20);
+            this.txttamanho.TabIndex = 47;
             // 
-            // textBox4
+            // txtcategoria
             // 
-            this.textBox4.Location = new System.Drawing.Point(12, 151);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(184, 20);
-            this.textBox4.TabIndex = 30;
+            this.txtcategoria.Location = new System.Drawing.Point(15, 105);
+            this.txtcategoria.Name = "txtcategoria";
+            this.txtcategoria.Size = new System.Drawing.Size(184, 20);
+            this.txtcategoria.TabIndex = 46;
             // 
-            // textBox3
+            // txtnome
             // 
-            this.textBox3.Location = new System.Drawing.Point(12, 112);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(184, 20);
-            this.textBox3.TabIndex = 29;
+            this.txtnome.Location = new System.Drawing.Point(15, 63);
+            this.txtnome.Name = "txtnome";
+            this.txtnome.Size = new System.Drawing.Size(184, 20);
+            this.txtnome.TabIndex = 45;
             // 
-            // textBox2
+            // lblempresa
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 70);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(184, 20);
-            this.textBox2.TabIndex = 28;
+            this.lblempresa.AutoSize = true;
+            this.lblempresa.Location = new System.Drawing.Point(12, 167);
+            this.lblempresa.Name = "lblempresa";
+            this.lblempresa.Size = new System.Drawing.Size(48, 13);
+            this.lblempresa.TabIndex = 44;
+            this.lblempresa.Text = "Empresa";
             // 
-            // label5
+            // lbltamanho
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 174);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 13);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Empresa";
+            this.lbltamanho.AutoSize = true;
+            this.lbltamanho.Location = new System.Drawing.Point(12, 128);
+            this.lbltamanho.Name = "lbltamanho";
+            this.lbltamanho.Size = new System.Drawing.Size(52, 13);
+            this.lbltamanho.TabIndex = 43;
+            this.lbltamanho.Text = "Tamanho";
             // 
-            // label4
+            // lblcategoria
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 135);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 26;
-            this.label4.Text = "Tamanho";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 96);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Categoria";
+            this.lblcategoria.AutoSize = true;
+            this.lblcategoria.Location = new System.Drawing.Point(12, 89);
+            this.lblcategoria.Name = "lblcategoria";
+            this.lblcategoria.Size = new System.Drawing.Size(52, 13);
+            this.lblcategoria.TabIndex = 42;
+            this.lblcategoria.Text = "Categoria";
             // 
             // lblnome
             // 
             this.lblnome.AutoSize = true;
-            this.lblnome.Location = new System.Drawing.Point(9, 54);
+            this.lblnome.Location = new System.Drawing.Point(12, 46);
             this.lblnome.Name = "lblnome";
             this.lblnome.Size = new System.Drawing.Size(35, 13);
-            this.lblnome.TabIndex = 24;
+            this.lblnome.TabIndex = 41;
             this.lblnome.Text = "Nome";
             // 
-            // dataGridView1
+            // btnlocalizar
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(9, 268);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(352, 101);
-            this.dataGridView1.TabIndex = 23;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(286, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 22;
-            this.button1.Text = "Localizar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnlocalizar.Location = new System.Drawing.Point(289, 12);
+            this.btnlocalizar.Name = "btnlocalizar";
+            this.btnlocalizar.Size = new System.Drawing.Size(75, 23);
+            this.btnlocalizar.TabIndex = 40;
+            this.btnlocalizar.Text = "Localizar";
+            this.btnlocalizar.UseVisualStyleBackColor = true;
+            this.btnlocalizar.Click += new System.EventHandler(this.btnlocalizar_Click);
             // 
             // txtId
             // 
-            this.txtId.Location = new System.Drawing.Point(12, 32);
+            this.txtId.Location = new System.Drawing.Point(15, 25);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(184, 20);
-            this.txtId.TabIndex = 21;
+            this.txtId.TabIndex = 39;
             // 
             // lblId
             // 
             this.lblId.AutoSize = true;
-            this.lblId.Location = new System.Drawing.Point(9, 16);
+            this.lblId.Location = new System.Drawing.Point(12, 9);
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(16, 13);
-            this.lblId.TabIndex = 20;
+            this.lblId.TabIndex = 38;
             this.lblId.Text = "Id";
+            // 
+            // dgvartigo
+            // 
+            this.dgvartigo.AllowUserToAddRows = false;
+            this.dgvartigo.AllowUserToDeleteRows = false;
+            this.dgvartigo.BackgroundColor = System.Drawing.Color.Thistle;
+            this.dgvartigo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvartigo.Location = new System.Drawing.Point(15, 265);
+            this.dgvartigo.Name = "dgvartigo";
+            this.dgvartigo.ReadOnly = true;
+            this.dgvartigo.Size = new System.Drawing.Size(352, 101);
+            this.dgvartigo.TabIndex = 54;
+            this.dgvartigo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvartigo_CellContentClick);
+            // 
+            // btnsair
+            // 
+            this.btnsair.Location = new System.Drawing.Point(289, 384);
+            this.btnsair.Name = "btnsair";
+            this.btnsair.Size = new System.Drawing.Size(75, 23);
+            this.btnsair.TabIndex = 55;
+            this.btnsair.Text = "Sair";
+            this.btnsair.UseVisualStyleBackColor = true;
             // 
             // FormArtigo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 419);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnsair);
+            this.Controls.Add(this.dgvartigo);
+            this.Controls.Add(this.txtvalor);
+            this.Controls.Add(this.lblvalor);
+            this.Controls.Add(this.btnexcluir);
+            this.Controls.Add(this.btnatualizar);
+            this.Controls.Add(this.btncadastrar);
+            this.Controls.Add(this.txtempresa);
+            this.Controls.Add(this.txttamanho);
+            this.Controls.Add(this.txtcategoria);
+            this.Controls.Add(this.txtnome);
+            this.Controls.Add(this.lblempresa);
+            this.Controls.Add(this.lbltamanho);
+            this.Controls.Add(this.lblcategoria);
             this.Controls.Add(this.lblnome);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnlocalizar);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.lblId);
             this.Name = "FormArtigo";
             this.Text = "FormArtigo";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.FormArtigo_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvartigo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtvalor;
+        private System.Windows.Forms.Label lblvalor;
+        private System.Windows.Forms.Button btnexcluir;
+        private System.Windows.Forms.Button btnatualizar;
+        private System.Windows.Forms.Button btncadastrar;
+        private System.Windows.Forms.TextBox txtempresa;
+        private System.Windows.Forms.TextBox txttamanho;
+        private System.Windows.Forms.TextBox txtcategoria;
+        private System.Windows.Forms.TextBox txtnome;
+        private System.Windows.Forms.Label lblempresa;
+        private System.Windows.Forms.Label lbltamanho;
+        private System.Windows.Forms.Label lblcategoria;
         private System.Windows.Forms.Label lblnome;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnlocalizar;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.DataGridView dgvartigo;
+        private System.Windows.Forms.Button btnsair;
     }
 }
