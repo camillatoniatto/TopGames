@@ -18,14 +18,16 @@ namespace TopGames.Classes
         public DateTime data_retirada { get; set; }
         public DateTime data_entrega { get; set; }
         public int entregue { get; set; } // 0 não - 1 sim
-        public decimal multa { get; set; } 
+        public decimal multa { get; set; }
+        public string tipo { get; set; }
 
 
         public void Inserir(object idCliente, object idProduto, string valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, decimal multa, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            decimal valor = Convert.ToDecimal(valor_total);
+            string replace = valor_total.Replace(",", ".");
+            decimal valor = Convert.ToDecimal(replace) / 100;
             cmd.CommandText = "INSERT INTO Aluguel(idCliente,idProduto,valor_total,quantidade,data_retirada,data_entrega,entregue,multa,tipo) VALUES ('" + Convert.ToInt32(idCliente) + "','" + Convert.ToInt32(idProduto) + "','" + valor + "','" + Convert.ToInt32(quantidade) + "',Convert(DateTime,'" + data_retirada + "',103),Convert(DateTime,'" + data_entrega + "',103),'" + entregue + "','" + multa + "','" + tipo + "')";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
@@ -49,6 +51,7 @@ namespace TopGames.Classes
                 data_entrega = Convert.ToDateTime(dr["data_entrega"]);
                 entregue = (int)dr["entregue"];
                 multa = (decimal)dr["multa"];
+                tipo = dr["tipo"].ToString();
             }
         }
 

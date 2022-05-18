@@ -57,3 +57,4 @@ C:\Users\Camilla\source\repos\TopGames\TopGames\obj\Debug\TopGames.csproj.Genera
 C:\Users\Camilla\source\repos\TopGames\TopGames\obj\Debug\TopGames.csproj.CoreCompileInputs.cache
 C:\Users\Camilla\source\repos\TopGames\TopGames\obj\Debug\TopGames.exe
 C:\Users\Camilla\source\repos\TopGames\TopGames\obj\Debug\TopGames.pdb
+C:\Users\Aluno\source\repos\TopGames\TopGames\obj\Debug\TopGames.FormJogo.resources

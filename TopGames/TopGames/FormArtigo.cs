@@ -26,20 +26,6 @@ namespace TopGames
             dgvartigo.DataSource = artigo;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dgvartigo.Rows[e.RowIndex];
-                txtnome.Text = row.Cells[0].Value.ToString();
-                txtcategoria.Text = row.Cells[1].Value.ToString();
-                txttamanho.Text = row.Cells[2].Value.ToString();
-                txtempresa.Text = row.Cells[3].Value.ToString();
-                txtvalor.Text = row.Cells[4].Value.ToString();
-
-            }
-        }
-
         private void dgvartigo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -89,6 +75,29 @@ namespace TopGames
         }
 
         private void btnexcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string nome = txtnome.Text.Trim();
+                ClassCliente cliente = new ClassCliente();
+                cliente.Exclui(nome);
+                MessageBox.Show("Artigo excluído com sucesso!", "Exclusão", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                List<ClassCliente> cli = cliente.listacliente();
+                dgvartigo.DataSource = cli;
+                txtnome.Text = "";
+                txtcategoria.Text = "";
+                txttamanho.Text = "";
+                txtempresa.Text = "";
+                txtvalor.Text = "";
+                DBContext.FecharConexao();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
+        }
+
+        private void btnsair_Click(object sender, EventArgs e)
         {
             this.Close();
         }

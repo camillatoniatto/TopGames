@@ -193,6 +193,7 @@
             this.dgvVenda.ReadOnly = true;
             this.dgvVenda.Size = new System.Drawing.Size(744, 251);
             this.dgvVenda.TabIndex = 107;
+            this.dgvVenda.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVenda_CellContentClick);
             // 
             // btnVoltar
             // 
@@ -259,6 +260,7 @@
             this.btnLocalizar.TabIndex = 100;
             this.btnLocalizar.Text = "Localizar";
             this.btnLocalizar.UseVisualStyleBackColor = false;
+            this.btnLocalizar.Click += new System.EventHandler(this.btnLocalizar_Click);
             // 
             // btnConfirmar
             // 

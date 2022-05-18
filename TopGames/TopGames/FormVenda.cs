@@ -25,17 +25,6 @@ namespace TopGames
 
         SqlConnection con = new SqlConnection(DBContext.stringconexao);
 
-        // QUERY SELECT
-        /*select venda.id, cliente.nome, cliente.cpf, jogo.nome, artigo.nome, venda.quantidade, venda.valor_total
-        from venda
-        join produto on venda.id = produto.idvenda
-        join jogo on produto.idjogo = jogo.id
-        join artigo on produto.idartigo = artigo.id
-        joint cliente on cliente.id = venda.idcliente
-        order by venda.data_venda desc
-        */
-
-        // ToDo: realizar query de vendas com join em artigos e produtos, arrumar metodo GetAll
         public void GetAll()
         {
             if (con.State == ConnectionState.Open)
@@ -55,7 +44,7 @@ namespace TopGames
                 dgvVenda.Columns.Add("Id", "Venda");
                 dgvVenda.Columns.Add("Nome", "Nome");
                 dgvVenda.Columns.Add("Cpf", "Cpf");
-                dgvVenda.Columns.Add("Produto", "Id");
+                dgvVenda.Columns.Add("Id", "idProduto");
                 dgvVenda.Columns.Add("Tipo", "Tipo");
                 dgvVenda.Columns.Add("Quantidade", "Quantidade");
                 dgvVenda.Columns.Add("Valor_Total", "Valor Total");
@@ -66,7 +55,7 @@ namespace TopGames
                     item.Cells[0].Value = dt.Rows[i]["Id"].ToString();
                     item.Cells[1].Value = dt.Rows[i]["Nome"].ToString();
                     item.Cells[2].Value = dt.Rows[i]["Cpf"].ToString();
-                    item.Cells[3].Value = dt.Rows[i]["Produto"].ToString();
+                    item.Cells[3].Value = dt.Rows[i]["idProduto"].ToString();
                     item.Cells[4].Value = dt.Rows[i]["Tipo"].ToString();
                     item.Cells[5].Value = dt.Rows[i]["Quantidade"].ToString();
                     item.Cells[6].Value = dt.Rows[i]["Valor_Total"].ToString();
@@ -134,16 +123,21 @@ namespace TopGames
                 var total = valorUnid * valor2;
                 txtTotal.Text = total.ToString();
                 rd.Close();
+                con.Close();
             }
             return model;
         }
 
-            // GET ALL CLIENTE
+        // GET ALL CLIENTE
         public void CarregaCbxCliente()
         {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
             string cli = "SELECT * FROM Cliente ORDER BY nome";
             SqlCommand cmd = new SqlCommand(cli, con);
-            con.Open();
             cmd.CommandType = CommandType.Text;
             SqlDataAdapter da = new SqlDataAdapter(cli, con);
             DataSet ds = new DataSet();
@@ -157,9 +151,13 @@ namespace TopGames
         // GET ALL JOGO
         public void CarregaCbxJogo()
         {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
             string jogo = "SELECT * FROM Jogo ORDER BY nome";
             SqlCommand cmd = new SqlCommand(jogo, con);
-            con.Open();
             cmd.CommandType = CommandType.Text;
             SqlDataAdapter da = new SqlDataAdapter(jogo, con);
             DataSet ds = new DataSet();
@@ -173,9 +171,13 @@ namespace TopGames
         // GET ALL ARTIGO
         public void CarregaCbxArtigo()
         {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
             string artigo = "SELECT * FROM Artigo ORDER BY nome";
             SqlCommand cmd = new SqlCommand(artigo, con);
-            con.Open();
             cmd.CommandType = CommandType.Text;
             SqlDataAdapter da = new SqlDataAdapter(artigo, con);
             DataSet ds = new DataSet();
@@ -186,23 +188,6 @@ namespace TopGames
             con.Close();
         }
                 
-        /*private void btnLocalizar_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int id = Convert.ToInt32(txtID.Text.Trim());
-                Hospedagem hsp = new Hospedagem();
-                hsp.Localiza(id);
-                cbxAnimal.SelectedValue = hsp.id_animal.ToString().Trim();
-                dtpDtInicio.Value = Convert.ToDateTime(hsp.checkin);
-                dtpDtFim.Value = Convert.ToDateTime(hsp.checkout);
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show(er.Message);
-            }
-        }*/
-
         // ARRUMAR DECIMAL
         private void btnVender_Click(object sender, EventArgs e)
         {
@@ -220,7 +205,6 @@ namespace TopGames
                 var type = "";
                 if (checkBox1.Checked)
                 {
-                    //produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
                     isGame = true;
                     string idProduto = "SELECT IDENT_CURRENT('Jogo')";
                     cmdProduto = new SqlCommand(idProduto, con);
@@ -228,13 +212,11 @@ namespace TopGames
                 }
                 else if (checkBox2.Checked)
                 {
-                    //produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
                     isGame = false;
                     string idArtigo = "SELECT IDENT_CURRENT('Artigo')";
                     cmdProduto = new SqlCommand(idArtigo, con);
                     type = "a";
                 }
-                //Int32 idProduto2 = Convert.ToInt32(cmdProduto.ExecuteScalar());
                 venda.Inserir(cbxClientes.SelectedValue, cbxProdutos.SelectedValue, txtTotal.Text, Convert.ToInt32(txtQuantidade.Text), type);
                 DBContext.FecharConexao();
                 DiminuirQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), cbxProdutos.SelectedValue);
@@ -306,6 +288,11 @@ namespace TopGames
         {
             try
             {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
                 string id = txtID.Text.Trim();
                 ClassVenda venda = new ClassVenda();
                 venda.Excluir(id);
@@ -323,6 +310,11 @@ namespace TopGames
         {
             try
             {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
                 ClassVenda venda = new ClassVenda();
                 ClassProduto produtos = new ClassProduto();
                 var type = "";
@@ -406,7 +398,7 @@ namespace TopGames
                             txtQuantidade.Text = "";
                             txtQuantidade.Focus();
                             rd.Close();
-                            con.Close();
+
                         }
                         else
                         {
@@ -416,6 +408,7 @@ namespace TopGames
                             txtTotal.Text = total.ToString();
                         }
                     }
+                    con.Close();
                 }
             }
         }
@@ -431,13 +424,67 @@ namespace TopGames
             {
                 checkBox1.Checked = true;
                 checkBox2.Checked = false;
+
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassJogo jg = new ClassJogo();
+                jg.ProcurarId(id);
+                cbxProdutos.ValueMember = jg.Id.ToString().Trim();
+                cbxProdutos.DisplayMember = jg.nome.ToString().Trim(); ;
             }
             else if (row.Cells[4].Value.ToString().Trim() == "a")
             {
                 checkBox1.Checked = false;
                 checkBox2.Checked = true;
+
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassArtigo art = new ClassArtigo();
+                art.ProcurarId(id);
+                cbxProdutos.ValueMember = art.Id.ToString().Trim();
+                cbxProdutos.DisplayMember = art.nome.ToString().Trim();
             }
             txtTotal.Text = row.Cells[6].Value.ToString().Trim();
+        }
+
+        private void btnLocalizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassVenda vnd = new ClassVenda();
+                vnd.LocalizaById(id);
+
+                txtID.Text = vnd.Id.ToString().Trim();
+                cbxClientes.Text = vnd.idCliente.ToString().Trim();
+                cbxProdutos.Text = vnd.idProduto.ToString().Trim();
+                txtQuantidade.Text = vnd.quantidade.ToString().Trim();
+                if (vnd.tipo.ToString().Trim() == "j")
+                {
+                    checkBox1.Checked = true;
+                    checkBox2.Checked = false;
+
+                    id = Convert.ToInt32(txtID.Text.Trim());
+                    ClassJogo jg = new ClassJogo();
+                    jg.ProcurarId(id);
+                    cbxProdutos.ValueMember = jg.Id.ToString().Trim();
+                    cbxProdutos.DisplayMember = jg.nome.ToString().Trim();
+                }
+                else if (vnd.tipo.ToString().Trim() == "a")
+                {
+                    checkBox1.Checked = false;
+                    checkBox2.Checked = true;
+
+                    id = Convert.ToInt32(txtID.Text.Trim());
+                    ClassArtigo art = new ClassArtigo();
+                    art.ProcurarId(id);
+                    cbxProdutos.ValueMember = art.Id.ToString().Trim();
+                    cbxProdutos.DisplayMember = art.nome.ToString().Trim();
+                }
+                txtTotal.Text = vnd.valor_total.ToString().Trim();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
         }
     }
 }

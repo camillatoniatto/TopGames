@@ -104,5 +104,10 @@ namespace TopGames
         {
             this.Close();
         }
+
+        private void FormJogo_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace TopGames.Classes
         public decimal valor_total { get; set; }
         public int quantidade { get; set; }
         public DateTime data_venda { get; set; }
+        public string tipo { get; set; }
 
 
         public void Inserir(object idCliente, object idProduto, string valor_total, int quantidade, string tipo)
@@ -31,7 +32,7 @@ namespace TopGames.Classes
             DBContext.FecharConexao();
         }
 
-        public void LocalizaById(string id)
+        public void LocalizaById(int id)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
@@ -45,6 +46,7 @@ namespace TopGames.Classes
                 valor_total = (decimal)dr["valor_total"];
                 quantidade = (int)dr["quantidade"];
                 data_venda = Convert.ToDateTime(dr["data_venda"]);
+                tipo = dr["tipo"].ToString();
             }
         }
 

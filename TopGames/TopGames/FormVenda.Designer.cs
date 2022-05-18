@@ -162,6 +162,7 @@
             this.btnLocalizar.TabIndex = 73;
             this.btnLocalizar.Text = "Localizar";
             this.btnLocalizar.UseVisualStyleBackColor = false;
+            this.btnLocalizar.Click += new System.EventHandler(this.btnLocalizar_Click);
             // 
             // cbxClientes
             // 

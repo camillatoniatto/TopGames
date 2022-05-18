@@ -12,6 +12,8 @@ namespace TopGames.Classes
     class ClassJogo
     {
         private object id;
+        private bool checkbox;
+
 
         public int Id { get; set; }
         public string nome { get; set; }
@@ -49,9 +51,8 @@ namespace TopGames.Classes
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            // comentado para não dar erro ao buildar o programa
-            var busca = true;//BuscarPorId(id);
-            if (busca)
+            //var busca = await BuscarPorId(id);
+            if (true)
             {
                 cmd.CommandText = "INSERT INTO jogo(nome,categoria,editora,valor,quantidade,data_cadastro) VALUES ('" + nome + "','" + categoria + "','" + editora + "','" + valor + "','" + quantidade + "','" + data_cadastro + "')";
                 cmd.CommandType = CommandType.Text;
@@ -72,6 +73,24 @@ namespace TopGames.Classes
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandText = "SELECT * FROM jogo WHERE id='" + id + "'";
+            cmd.CommandType = CommandType.Text;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                nome = dr["nome"].ToString();
+                categoria = dr["categoria"].ToString();
+                editora = dr["editora"].ToString();
+                valor = dr["valor"].ToString();
+                quantidade = dr["quantidade"].ToString();
+                data_cadastro = Convert.ToDateTime(dr["data_cadastro"]);
+            }
+        }
+
+        public void ProcurarId(int id)
+        {
+            SqlConnection con = DBContext.ObterConexao();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM jogo WHERE Id='" + id + "'";
             cmd.CommandType = CommandType.Text;
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())

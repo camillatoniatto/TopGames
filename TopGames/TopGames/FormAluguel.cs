@@ -25,6 +25,53 @@ namespace TopGames
 
         SqlConnection con = new SqlConnection(DBContext.stringconexao);
 
+        public void GetAll()
+        {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
+            SqlCommand cmd = new SqlCommand("GetAllAluguel", con);
+            //cmd.Parameters.AddWithValue("@tipo", );
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            int linhas = dt.Rows.Count;
+            if (dt.Rows.Count > 0)
+            {
+                dgvVenda.Columns.Add("Id", "Venda");
+                dgvVenda.Columns.Add("Nome", "Nome");
+                dgvVenda.Columns.Add("Cpf", "Cpf");
+                dgvVenda.Columns.Add("Id", "idProduto");
+                dgvVenda.Columns.Add("Tipo", "Tipo");
+                dgvVenda.Columns.Add("Quantidade", "Quantidade");
+                dgvVenda.Columns.Add("Valor_Total", "Valor Total");
+                dgvVenda.Columns.Add("Data_Retirada", "Data Retirada");
+                dgvVenda.Columns.Add("Data_Entrega", "Data Entrega");
+                dgvVenda.Columns.Add("multa", "Multa");
+
+                for (int i = 0; i < linhas; i++)
+                {
+                    DataGridViewRow item = new DataGridViewRow();
+                    item.CreateCells(dgvVenda);
+                    item.Cells[0].Value = dt.Rows[i]["Id"].ToString();
+                    item.Cells[1].Value = dt.Rows[i]["Nome"].ToString();
+                    item.Cells[2].Value = dt.Rows[i]["Cpf"].ToString();
+                    item.Cells[3].Value = dt.Rows[i]["idProduto"].ToString();
+                    item.Cells[4].Value = dt.Rows[i]["Tipo"].ToString();
+                    item.Cells[5].Value = dt.Rows[i]["Quantidade"].ToString();
+                    item.Cells[6].Value = dt.Rows[i]["Valor_Total"].ToString();
+                    item.Cells[7].Value = dt.Rows[i]["data_retirada"].ToString();
+                    item.Cells[6].Value = dt.Rows[i]["data_entrega"].ToString();
+                    item.Cells[9].Value = dt.Rows[i]["multa"].ToString();
+                    dgvVenda.Rows.Add(item);
+                }
+            }
+            con.Close();
+        }
+
 
         public async void DiminuirQuantidade(bool isGame, int quantidade, object id)
         {
@@ -205,7 +252,7 @@ namespace TopGames
             dgvVenda.Rows.Clear();
             dgvVenda.Columns.Clear();
             dgvVenda.Refresh();
-            //GetAll();
+            GetAll();
         }
 
         private void txtQuantidade_TextChanged(object sender, EventArgs e)
@@ -323,6 +370,157 @@ namespace TopGames
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
+                ClassAluguel aluguel = new ClassAluguel();
+                ClassProduto produtos = new ClassProduto();
+                SqlCommand cmdProduto = new SqlCommand();
+                bool isGame = false;
+                var type = "";
+                if (checkBox1.Checked)
+                {
+                    //produtos.Inserir(cbxProdutos.SelectedValue, null, 0);
+                    isGame = true;
+                    string idProduto = "SELECT IDENT_CURRENT('Jogo')";
+                    cmdProduto = new SqlCommand(idProduto, con);
+                    type = "j";
+                }
+                else if (checkBox2.Checked)
+                {
+                    //produtos.Inserir(null, cbxProdutos.SelectedValue, 0);
+                    isGame = false;
+                    string idArtigo = "SELECT IDENT_CURRENT('Artigo')";
+                    cmdProduto = new SqlCommand(idArtigo, con);
+                    type = "a";
+                }
+
+                aluguel.LocalizaById(Convert.ToInt32(txtID.Text));
+                DateTime entrega = Convert.ToDateTime(aluguel.data_entrega);
+                DateTime dateNow = DateTime.Now;
+                var atraso = entrega.DayOfYear - dateNow.DayOfYear;
+                var multa = 5.00M;
+                var totalMulta = 0M;
+                if (atraso > 1)
+                {
+                    totalMulta = multa * atraso;
+                }
+                aluguel.Confirmar(txtID.Text, DateTime.Now, totalMulta);
+                AumentarQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), cbxProdutos.SelectedValue);
+                
+                MessageBox.Show("Venda realizada com sucesso.", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DBContext.FecharConexao();
+                clean();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
+        }
+
+        public async void AumentarQuantidade(bool isGame, int quantidade, object id)
+        {
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            con.Open();
+
+            SqlCommand cmd = con.CreateCommand();
+            var verifica = await VerificarQuantidade(id, isGame);
+
+            var resto = verifica.Quantidade + quantidade;
+            if (isGame)
+            {
+                cmd.CommandText = "UPDATE Jogo SET quantidade='" + resto + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            }
+            else
+            {
+                cmd.CommandText = "UPDATE Artigo SET quantidade='" + resto + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            }
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+            DBContext.FecharConexao();
+        }
+
+        private void btnLocalizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassAluguel aluguel = new ClassAluguel();
+
+                aluguel.LocalizaById(id);
+
+                txtID.Text = aluguel.Id.ToString().Trim();
+                cbxClientes.Text = aluguel.idCliente.ToString().Trim();
+                cbxProdutos.Text = aluguel.idProduto.ToString().Trim();
+                txtQuantidade.Text = aluguel.quantidade.ToString().Trim();
+                if (aluguel.tipo.ToString().Trim() == "j")
+                {
+                    checkBox1.Checked = true;
+                    checkBox2.Checked = false;
+
+                    id = Convert.ToInt32(txtID.Text.Trim());
+                    ClassJogo jg = new ClassJogo();
+                    jg.ProcurarId(id);
+                    cbxProdutos.ValueMember = jg.Id.ToString().Trim();
+                    cbxProdutos.DisplayMember = jg.nome.ToString().Trim();
+                }
+                else if (aluguel.tipo.ToString().Trim() == "a")
+                {
+                    checkBox1.Checked = false;
+                    checkBox2.Checked = true;
+
+                    id = Convert.ToInt32(txtID.Text.Trim());
+                    ClassArtigo art = new ClassArtigo();
+                    art.ProcurarId(id);
+                    cbxProdutos.ValueMember = art.Id.ToString().Trim();
+                    cbxProdutos.DisplayMember = art.nome.ToString().Trim();
+                }
+                txtTotal.Text = aluguel.valor_total.ToString().Trim();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
+        }
+
+        private void dgvVenda_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = this.dgvVenda.Rows[e.RowIndex];
+            txtID.Text = row.Cells[0].Value.ToString().Trim();
+            cbxClientes.Text = row.Cells[1].Value.ToString().Trim();
+            cbxProdutos.Text = row.Cells[3].Value.ToString().Trim();
+            txtQuantidade.Text = row.Cells[5].Value.ToString().Trim();
+            if (row.Cells[4].Value.ToString().Trim() == "j")
+            {
+                checkBox1.Checked = true;
+                checkBox2.Checked = false;
+
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassJogo jg = new ClassJogo();
+                jg.ProcurarId(id);
+                cbxProdutos.ValueMember = jg.Id.ToString().Trim();
+                cbxProdutos.DisplayMember = jg.nome.ToString().Trim(); ;
+            }
+            else if (row.Cells[4].Value.ToString().Trim() == "a")
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = true;
+
+                int id = Convert.ToInt32(txtID.Text.Trim());
+                ClassArtigo art = new ClassArtigo();
+                art.ProcurarId(id);
+                cbxProdutos.ValueMember = art.Id.ToString().Trim();
+                cbxProdutos.DisplayMember = art.nome.ToString().Trim();
+            }
+            dtRetirada.Text = row.Cells[7].Value.ToString().Trim();
+            dtEntrega.Text = row.Cells[8].Value.ToString().Trim();
 
         }
     }

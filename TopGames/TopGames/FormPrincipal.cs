@@ -21,17 +21,11 @@ namespace TopGames
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            /*SqlConnection con = DBContext.ObterConexao();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT * FROM Cliente WHERE cpf = '" + FormLogin.usuarioconectado + "'";
-            cmd.CommandType = CommandType.Text;
-            SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                ClassCliente user = new ClassCliente();
-                lblUser.Text = user.nome;
-            }
-            con.Close();*/
+            SqlConnection con = DBContext.ObterConexao();
+            ClassCliente user = new ClassCliente();
+            user.Procurar(FormLogin.usuarioconectado);
+            lblUser.Text = user.nome;
+            con.Close();
         }
 
         private void vendasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -50,6 +44,18 @@ namespace TopGames
         {
             FormAluguel aluguel = new FormAluguel();
             aluguel.Show();
+        }
+
+        private void jogosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormJogo form = new FormJogo();
+            form.Show();
+        }
+
+        private void artigosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormArtigo form = new FormArtigo();
+            form.Show();
         }
     }
 }

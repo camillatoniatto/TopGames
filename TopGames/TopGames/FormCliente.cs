@@ -18,41 +18,24 @@ namespace TopGames
             InitializeComponent();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void FormCliente_Load(object sender, EventArgs e)
         {
-            this.Close();
+            ClassCliente cliente = new ClassCliente();
+            List<ClassCliente> clientes = cliente.listacliente();
+            dgvCliente.DataSource = clientes;
         }
 
-        private void btnLimpar_Click(object sender, EventArgs e)
+        private async void btnCadastrar_Click_1(object sender, EventArgs e)
         {
-            txtNome.Text = "";
-            txtCPF.Text = "";
-            txtTelefone.Text = "";
-            txtEmail.Text = "";
-            this.dtpNascimento.Value = DateTime.Now.Date;
-        }
-
-        private void btnCadastrar_Click(object sender, EventArgs e)
-        {
-            /*try
+            try
             {
-                ClassCliente usuario = new ClassCliente();
-                var result = await usuario.Inserir(txtNome.Text, txtCPF.Text, txtTelefone.Text, txtEmail.Text);
-                //List<Usuario> usu = usuario.listacliente();
-                this.Hide();
-                if (result)
-                {
-                    FormLogin hos = new FormLogin();
-                    hos.Show();
-                }
-                else
-                {
-                    this.Refresh();
-                }
-                DBContext.FecharConexao();
-                //dgvCliente.DataSource = usu;
+                ClassCliente cliente = new ClassCliente();
+                await cliente.Inserir(txtNome.Text, txtCpf.Text, txtTelefone.Text, txtEmail.Text, txtCpf.Text, dtpNascimento.Value);
+                MessageBox.Show("Cliente cadastrado com sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                List<ClassCliente> cli = cliente.listacliente();
+                dgvCliente.DataSource = cli;
                 txtNome.Text = "";
-                txtCPF.Text = "";
+                txtCpf.Text = "";
                 txtTelefone.Text = "";
                 txtEmail.Text = "";
                 this.dtpNascimento.Value = DateTime.Now.Date;
@@ -61,7 +44,85 @@ namespace TopGames
             catch (Exception er)
             {
                 MessageBox.Show(er.Message);
-            }*/
+            }
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            txtCpf.Text = "";
+            txtNome.Text = "";
+            txtCpf.Text = "";
+            txtTelefone.Text = "";
+            txtEmail.Text = "";
+            this.dtpNascimento.Value = DateTime.Now.Date;
+            DBContext.FecharConexao();
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            string Cpf = txtCpf.Text.Trim();
+            ClassCliente cliente = new ClassCliente();
+            cliente.Atualizar(txtNome.Text, txtCpf.Text, txtTelefone.Text, txtEmail.Text, Cpf, dtpNascimento.Value);
+            MessageBox.Show("Cliente atualizado com sucesso!");
+            List<ClassCliente> clientes = cliente.listacliente();
+            dgvCliente.DataSource = clientes;
+            txtCpf.Text = "";
+            txtNome.Text = "";
+            txtTelefone.Text = "";
+            txtEmail.Text = "";
+            this.dtpNascimento.Value = DateTime.Now.Date;
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string cpf = txtCpf.Text.Trim();
+                ClassCliente cliente = new ClassCliente();
+                cliente.Exclui(cpf);
+                MessageBox.Show("Cliente excluído com sucesso!", "Exclusão", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                List<ClassCliente> cli = cliente.listacliente();
+                dgvCliente.DataSource = cli;
+                txtCpf.Text = "";
+                txtNome.Text = "";
+                txtTelefone.Text = "";
+                txtEmail.Text = "";
+                this.dtpNascimento.Value = DateTime.Now.Date;
+                DBContext.FecharConexao();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
+        }
+
+        private void btnLocalizar_Click(object sender, EventArgs e)
+        {
+            string cpf = txtCpf.Text.Trim();
+            ClassCliente cliente = new ClassCliente();
+            cliente.Procurar(cpf);
+            txtNome.Text = cliente.nome;
+            txtTelefone.Text = cliente.telefone;
+            txtEmail.Text = cliente.email;
+            this.dtpNascimento.Value = cliente.data_nascimento;
+        }
+
+        private void dgvCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dgvCliente.Rows[e.RowIndex];
+                txtCpf.Text = row.Cells[0].Value.ToString();
+                txtNome.Text = row.Cells[1].Value.ToString();
+                txtTelefone.Text = row.Cells[2].Value.ToString();
+                txtEmail.Text = row.Cells[3].Value.ToString();
+                dtpNascimento.Text = row.Cells[4].Value.ToString();
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

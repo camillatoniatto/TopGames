@@ -252,6 +252,7 @@ namespace TopGames
             this.Name = "FormJogo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Jogos";
+            this.Load += new System.EventHandler(this.FormJogo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DgvJogos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

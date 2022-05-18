@@ -206,6 +206,7 @@ namespace TopGames
             this.btnsair.TabIndex = 55;
             this.btnsair.Text = "Sair";
             this.btnsair.UseVisualStyleBackColor = true;
+            this.btnsair.Click += new System.EventHandler(this.btnsair_Click);
             // 
             // FormArtigo
             // 

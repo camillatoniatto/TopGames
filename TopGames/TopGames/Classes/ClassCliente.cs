@@ -47,11 +47,10 @@ namespace TopGames.Classes
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            var processo = "user"; ////////
             var busca = await BuscarPorCPF(cpf);
             if (busca)
             {
-                cmd.CommandText = "INSERT INTO cliente(nome,cpf,telefone,email,senha,data_nascimento) VALUES ('" + nome + "','" + cpf + "','" + telefone + "','" + email + "','" + senha + "','" + data_nascimento + "')";
+                cmd.CommandText = "INSERT INTO cliente(nome,cpf,telefone,email,senha,data_nascimento) VALUES ('" + nome + "','" + cpf + "','" + telefone + "','" + email + "','" + senha + "',Convert(DateTime,'" + data_nascimento + "',103))";
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Cadastro realizado com sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -76,8 +75,8 @@ namespace TopGames.Classes
             while (dr.Read())
             {
                 nome = dr["nome"].ToString();
-                this.cpf = dr["cpf"].ToString();
-                telefone = dr["celular"].ToString();
+                //this.cpf = dr["cpf"].ToString();
+                telefone = dr["telefone"].ToString();
                 email = dr["email"].ToString();
                 data_nascimento = Convert.ToDateTime(dr["data_nascimento"]);
             }

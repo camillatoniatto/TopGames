@@ -91,12 +91,14 @@
             this.jogosToolStripMenuItem.Name = "jogosToolStripMenuItem";
             this.jogosToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.jogosToolStripMenuItem.Text = "Jogos";
+            this.jogosToolStripMenuItem.Click += new System.EventHandler(this.jogosToolStripMenuItem_Click);
             // 
             // artigosToolStripMenuItem
             // 
             this.artigosToolStripMenuItem.Name = "artigosToolStripMenuItem";
             this.artigosToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.artigosToolStripMenuItem.Text = "Artigos";
+            this.artigosToolStripMenuItem.Click += new System.EventHandler(this.artigosToolStripMenuItem_Click);
             // 
             // vendasToolStripMenuItem
             // 
@@ -130,15 +132,16 @@
             // 
             this.lblUser.AutoSize = true;
             this.lblUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUser.Location = new System.Drawing.Point(9, 242);
+            this.lblUser.Location = new System.Drawing.Point(6, 248);
             this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(0, 31);
+            this.lblUser.Size = new System.Drawing.Size(56, 31);
             this.lblUser.TabIndex = 6;
+            this.lblUser.Text = "      ";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 225);
+            this.label1.Location = new System.Drawing.Point(3, 225);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 13);
             this.label1.TabIndex = 5;
@@ -147,7 +150,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Azure;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 19);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(227, 203);
             this.pictureBox1.TabIndex = 0;

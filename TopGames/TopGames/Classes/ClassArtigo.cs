@@ -17,23 +17,24 @@ namespace TopGames.Classes
         public string tamanho { get; set; }
         public string empresa { get; set; }
         public string valor { get; set; }
+        public int quantidade { get; set; }
         public List<ClassArtigo> listaArtigo()
         {
             List<ClassArtigo> li = new List<ClassArtigo>();
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "SELECT * FROM cliente";
+            cmd.CommandText = "SELECT * FROM Artigo";
             cmd.CommandType = CommandType.Text;
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 ClassArtigo c = new ClassArtigo();
                 c.Id = (int)dr["Id"];
-                c.nome = dr["nome"].ToString();
-                c.categoria = dr["categoria"].ToString();
-                c.tamanho = dr["tamanho"].ToString();
-                c.empresa = dr["empresa"].ToString();
-                c.valor = dr["valor"].ToString();
+                c.nome = dr["nome"].ToString().Trim();
+                c.categoria = dr["categoria"].ToString().Trim();
+                c.tamanho = dr["tamanho"].ToString().Trim();
+                c.empresa = dr["empresa"].ToString().Trim();
+                c.valor = dr["valor"].ToString().Trim();
                 li.Add(c);
             }
             return li;
@@ -75,8 +76,23 @@ namespace TopGames.Classes
                 tamanho = dr["tamanho"].ToString();
                 empresa = dr["empresa"].ToString();
                 valor = dr["valor"].ToString();
+            }
+        }
 
-
+        public void ProcurarId(int id)
+        {
+            SqlConnection con = DBContext.ObterConexao();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = "SELECT * FROM artigo WHERE Id='" + id + "'";
+            cmd.CommandType = CommandType.Text;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                nome = dr["nome"].ToString();
+                categoria = dr["categoria"].ToString();
+                tamanho = dr["tamanho"].ToString();
+                empresa = dr["empresa"].ToString();
+                valor = dr["valor"].ToString();
             }
         }
 
