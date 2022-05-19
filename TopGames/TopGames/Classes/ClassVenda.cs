@@ -54,6 +54,8 @@ namespace TopGames.Classes
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
+            string replace = valor_total.Replace(",", ".");
+            decimal valor = Convert.ToDecimal(replace) / 100;
             cmd.CommandText = "UPDATE Venda SET idCliente='" + Convert.ToInt32(idCliente) + "',idProduto='" + Convert.ToInt32(idProduto) + "', valor_total='" + Convert.ToDecimal(valor_total) + "', quantidade='" + Convert.ToInt32(quantidade) + "', tipo='" + tipo + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();

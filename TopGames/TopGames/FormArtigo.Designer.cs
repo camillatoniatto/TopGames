@@ -84,6 +84,7 @@ namespace TopGames
             this.btnatualizar.TabIndex = 50;
             this.btnatualizar.Text = "Atualizar";
             this.btnatualizar.UseVisualStyleBackColor = true;
+            this.btnatualizar.Click += new System.EventHandler(this.btnatualizar_Click);
             // 
             // btncadastrar
             // 

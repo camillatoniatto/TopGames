@@ -27,7 +27,7 @@ namespace TopGames
             try
             {
                 ClassJogo jogo = new ClassJogo();
-                await jogo.Inserir(txtNome.Text, txtCategoria.Text, txtEditora.Text, txtValor.Text, txtQuantidade.Text, dtpDataCadastro.Value);
+                await jogo.Inserir(txtNome.Text, txtCategoria.Text, txtDescricao.Text, txtEditora.Text, txtValor.Text, txtQuantidade.Text, dtpDataCadastro.Value);
                 MessageBox.Show("Jogo cadastrado com sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 List<ClassJogo> jog = jogo.listajogo();
                 DgvJogos.DataSource = jog;
@@ -49,7 +49,7 @@ namespace TopGames
         {
             string Id = txtId.Text.Trim();
             ClassJogo jogo = new ClassJogo();
-            jogo.Atualizar(txtNome.Text, txtCategoria.Text, txtEditora.Text, txtValor.Text, txtQuantidade.Text, dtpDataCadastro.Value);
+            jogo.Atualizar(txtNome.Text, txtCategoria.Text, txtDescricao.Text, txtEditora.Text, txtValor.Text, txtQuantidade.Text, dtpDataCadastro.Value);
             MessageBox.Show("Jogo atualizado com sucesso!");
             List<ClassJogo> jog = jogo.listajogo();
             DgvJogos.DataSource = jog;
@@ -65,9 +65,10 @@ namespace TopGames
         {
             string Id = txtId.Text.Trim();
             ClassJogo jogo = new ClassJogo();
-            jogo.Procurar(Id);
+            jogo.ProcurarId(Convert.ToInt32(Id));
             txtNome.Text = jogo.nome;
             txtCategoria.Text = jogo.categoria;
+            txtDescricao.Text = jogo.descricao;
             txtEditora.Text = jogo.editora;
             txtValor.Text = jogo.valor;
             txtQuantidade.Text = jogo.editora;
@@ -88,6 +89,7 @@ namespace TopGames
                 txtId.Text = "";
                 txtNome.Text = "";
                 txtCategoria.Text = "";
+                txtDescricao.Text = "";
                 txtEditora.Text = "";
                 txtValor.Text = "";
                 txtQuantidade.Text = "";
@@ -107,7 +109,9 @@ namespace TopGames
 
         private void FormJogo_Load(object sender, EventArgs e)
         {
-
+            ClassJogo jogo = new ClassJogo();
+            List<ClassJogo> artigo = jogo.listajogo();
+            DgvJogos.DataSource = artigo;
         }
     }
 }

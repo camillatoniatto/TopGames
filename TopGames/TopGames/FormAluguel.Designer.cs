@@ -223,6 +223,7 @@
             this.btnAttAluguel.TabIndex = 104;
             this.btnAttAluguel.Text = "Editar locação";
             this.btnAttAluguel.UseVisualStyleBackColor = false;
+            this.btnAttAluguel.Click += new System.EventHandler(this.btnAttAluguel_Click);
             // 
             // btnAlugar
             // 

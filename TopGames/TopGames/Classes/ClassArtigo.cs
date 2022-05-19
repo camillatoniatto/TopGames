@@ -18,6 +18,7 @@ namespace TopGames.Classes
         public string empresa { get; set; }
         public string valor { get; set; }
         public int quantidade { get; set; }
+
         public List<ClassArtigo> listaArtigo()
         {
             List<ClassArtigo> li = new List<ClassArtigo>();
@@ -35,19 +36,20 @@ namespace TopGames.Classes
                 c.tamanho = dr["tamanho"].ToString().Trim();
                 c.empresa = dr["empresa"].ToString().Trim();
                 c.valor = dr["valor"].ToString().Trim();
+                c.quantidade = (int)dr["quantidade"];
                 li.Add(c);
             }
             return li;
         }
 
-        public async Task<bool> Inserir(string nome, string categoria, string tamanho, string empresa, string valor)
+        public async Task<bool> Inserir(string nome, string categoria, string tamanho, string empresa, string valor, string quantidade)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
             var busca = await BuscarPornome(nome);
             if (busca)
             {
-                cmd.CommandText = "INSERT INTO artigo(nome,categoria,tamanho,empresa,valor) VALUES ('" + nome + "','" + categoria + "','" + tamanho + "','" + empresa + "','" + valor + "')";
+                cmd.CommandText = "INSERT INTO artigo(nome,categoria,tamanho,empresa,valor,quantidade) VALUES ('" + nome + "','" + categoria + "','" + tamanho + "','" + empresa + "','" + valor + "','" + Convert.ToInt32(quantidade) + "')";
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Cadastro realizado com sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -93,6 +95,7 @@ namespace TopGames.Classes
                 tamanho = dr["tamanho"].ToString();
                 empresa = dr["empresa"].ToString();
                 valor = dr["valor"].ToString();
+                quantidade = (int)dr["quantidade"];
             }
         }
 
@@ -126,11 +129,11 @@ namespace TopGames.Classes
             DBContext.FecharConexao();
         }
 
-        public void Atualizar(string nome, string categoria, string tamanho, string empresa, string valor)
+        public void Atualizar(string nome, string categoria, string tamanho, string empresa, string valor, string quantidade, int id)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE artigo SET nome='" + nome + "',categoria='" + categoria + "',tamanho='" + tamanho + "',empresa='" + empresa + "',valor='" + valor + "' WHERE nome = '" + FormLogin.usuarioconectado + "'";
+            cmd.CommandText = "UPDATE artigo SET nome='" + nome + "',categoria='" + categoria + "',tamanho='" + tamanho + "',empresa='" + empresa + "',valor='" + valor + "',quantidade='" + Convert.ToInt32(quantidade) + "' WHERE Id = '" + id + "'";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();

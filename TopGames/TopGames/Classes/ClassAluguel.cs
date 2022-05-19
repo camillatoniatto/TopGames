@@ -55,11 +55,13 @@ namespace TopGames.Classes
             }
         }
 
-        public void Atualizar(string id, int idCliente, int idProduto, decimal valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, decimal multa, string tipo)
+        public void Atualizar(string id, object idCliente, object idProduto, string valor_total, int quantidade, DateTime data_retirada, DateTime data_entrega, int entregue, decimal multa, string tipo)
         {
             SqlConnection con = DBContext.ObterConexao();
             SqlCommand cmd = con.CreateCommand();
-            cmd.CommandText = "UPDATE Aluguel SET idCliente='" + idCliente + "',idProduto='" + idProduto + "', valor_total='" + valor_total + "', quantidade='" + quantidade + "', data_retirada=Convert(DateTime,'" + data_retirada + "',103), data_entrega=Convert(DateTime,'" + data_entrega + "',103), entregue='" + entregue + "', multa='" + multa + "', tipo='" + tipo + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
+            string replace = valor_total.Replace(",", ".");
+            decimal valor = Convert.ToDecimal(replace) / 100;
+            cmd.CommandText = "UPDATE Aluguel SET idCliente='" + Convert.ToInt32(idCliente) + "',idProduto='" + Convert.ToInt32(idProduto) + "', valor_total='" + valor + "', quantidade='" + quantidade + "', data_retirada=Convert(DateTime,'" + data_retirada + "',103), data_entrega=Convert(DateTime,'" + data_entrega + "',103), entregue='" + entregue + "', multa='" + multa + "', tipo='" + tipo + "' WHERE Id = '" + Convert.ToInt32(id) + "'";
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
             DBContext.FecharConexao();

@@ -36,6 +36,7 @@ namespace TopGames
                 txttamanho.Text = row.Cells[2].Value.ToString();
                 txtempresa.Text = row.Cells[3].Value.ToString();
                 txtvalor.Text = row.Cells[4].Value.ToString();
+                txtquantidade.Text = row.Cells[5].Value.ToString();
 
             }
         }
@@ -49,6 +50,7 @@ namespace TopGames
             txttamanho.Text = artigo.tamanho;
             txtempresa.Text = artigo.empresa;
             txtvalor.Text = artigo.valor;
+            txtquantidade.Text = artigo.quantidade;
         }
 
         private async void btncadastrar_Click(object sender, EventArgs e)
@@ -56,7 +58,7 @@ namespace TopGames
             try
             {
                 ClassArtigo artigo = new ClassArtigo();
-                await artigo.Inserir(txtnome.Text, txtcategoria.Text, txttamanho.Text, txtempresa.Text, txtvalor.Text);
+                await artigo.Inserir(txtnome.Text, txtcategoria.Text, txttamanho.Text, txtempresa.Text, txtvalor.Text, txtquantidade.Text);
                 MessageBox.Show("Artigo cadastrado com sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 List<ClassArtigo> cli = artigo.listaArtigo();
                 dgvartigo.DataSource = cli;
@@ -65,6 +67,7 @@ namespace TopGames
                 txttamanho.Text = "";
                 txtempresa.Text = "";
                 txtvalor.Text = "";
+                txtquantidade.Text = "";
 
                 DBContext.FecharConexao();
             }
@@ -79,16 +82,17 @@ namespace TopGames
             try
             {
                 string nome = txtnome.Text.Trim();
-                ClassCliente cliente = new ClassCliente();
-                cliente.Exclui(nome);
+                ClassArtigo artigo = new ClassArtigo();
+                artigo.Exclui(nome);
                 MessageBox.Show("Artigo excluído com sucesso!", "Exclusão", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                List<ClassCliente> cli = cliente.listacliente();
+                List<ClassArtigo> cli = artigo.listaArtigo();
                 dgvartigo.DataSource = cli;
                 txtnome.Text = "";
                 txtcategoria.Text = "";
                 txttamanho.Text = "";
                 txtempresa.Text = "";
                 txtvalor.Text = "";
+                txtquantidade.Text = "";
                 DBContext.FecharConexao();
             }
             catch (Exception er)
@@ -100,6 +104,23 @@ namespace TopGames
         private void btnsair_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnatualizar_Click(object sender, EventArgs e)
+        {
+            string Id = txtId.Text.Trim();
+            ClassArtigo artigo = new ClassArtigo();
+            artigo.Atualizar(txtnome.Text, txtcategoria.Text, txttamanho.Text, txtempresa.Text, txtvalor.Text, txtquantidade.Text);
+            MessageBox.Show("Artigo atualizado com sucesso!");
+            List<ClassArtigo> cli = artigo.listaArtigo();
+            dgvartigo.DataSource = cli;
+            txtnome.Text = "";
+            txtcategoria.Text = "";
+            txttamanho.Text = "";
+            txtempresa.Text = "";
+            txtvalor.Text = "";
+            txtquantidade.Text = "";
+            DBContext.FecharConexao();
         }
     }
 }

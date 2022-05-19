@@ -147,11 +147,14 @@ namespace TopGames
             checkBox2.Checked = false;
             checkBox1.Enabled = false;
             checkBox2.Enabled = false;
+            dtRetirada.Enabled = false;
+            dtEntrega.Enabled = false;
+
 
             dgvVenda.Rows.Clear();
             dgvVenda.Columns.Clear();
             dgvVenda.Refresh();
-            //GetAll();
+            GetAll();
         }
 
         public void CarregaCbxCliente()
@@ -235,24 +238,7 @@ namespace TopGames
 
         private void FormAluguel_Load(object sender, EventArgs e)
         {
-            CarregaCbxCliente();
-            txtID.Text = "";
-            cbxClientes.Enabled = false;
-            cbxProdutos.Enabled = false;
-            txtQuantidade.Enabled = false;
-            txtTotal.Enabled = false;
-            checkBox1.Checked = false;
-            checkBox2.Checked = false;
-            checkBox1.Enabled = false;
-            checkBox2.Enabled = false;
-            dtRetirada.Enabled = false;
-            dtEntrega.Enabled = false;
-
-
-            dgvVenda.Rows.Clear();
-            dgvVenda.Columns.Clear();
-            dgvVenda.Refresh();
-            GetAll();
+            clean();
         }
 
         private void txtQuantidade_TextChanged(object sender, EventArgs e)
@@ -339,21 +325,13 @@ namespace TopGames
                     cmdProduto = new SqlCommand(idArtigo, con);
                     type = "a";
                 }
-
-                aluguel.Inserir(cbxClientes.SelectedValue, cbxProdutos.SelectedValue, txtTotal.Text, Convert.ToInt32(txtQuantidade.Text), dtRetirada.Value, dtEntrega.Value, 0, 0M, type);
+                DateTime entrega = dtRetirada.Value.AddDays(3);
+                aluguel.Inserir(cbxClientes.SelectedValue, cbxProdutos.SelectedValue, txtTotal.Text, Convert.ToInt32(txtQuantidade.Text), entrega, dtEntrega.Value, 0, 0M, type);
 
                 DiminuirQuantidade(isGame, Convert.ToInt32(txtQuantidade.Text), cbxProdutos.SelectedValue);
 
                 MessageBox.Show("Aluguel realizado com sucesso.", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dgvVenda.Rows.Clear();
-                dgvVenda.Columns.Clear();
-                dgvVenda.Refresh();
-                //GetAll();
-                txtID.Text = "";
-                string cliente = cbxClientes.ValueMember;
-                string produto = cbxProdutos.ValueMember;
-                txtQuantidade.Text = "";
-                txtTotal.Text = "";
+                clean();
 
                 DBContext.FecharConexao();
             }
@@ -522,6 +500,39 @@ namespace TopGames
             dtRetirada.Text = row.Cells[7].Value.ToString().Trim();
             dtEntrega.Text = row.Cells[8].Value.ToString().Trim();
 
+        }
+
+        private void btnAttAluguel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                con.Open();
+                ClassAluguel aluguel = new ClassAluguel();
+                var type = "";
+                if (checkBox1.Checked)
+                {
+                    type = "j";
+                }
+                else if (checkBox2.Checked)
+                {
+                    type = "a";
+
+                }
+                DateTime entrega = dtRetirada.Value.AddDays(3);
+                aluguel.Atualizar(txtID.Text, cbxClientes.SelectedValue, cbxProdutos.SelectedValue, txtTotal.Text, Convert.ToInt32(txtQuantidade.Text), entrega, dtEntrega.Value, 0, 0M, type);
+
+                MessageBox.Show("Aluguel atualizado com sucesso!", "Atualizar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                clean();
+                DBContext.FecharConexao();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+            }
         }
     }
 }
